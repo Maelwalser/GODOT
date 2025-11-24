@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn55r4otn7ik0"]
+
+[ext_resource type="Script" uid="uid://dbjqd470eqn2r" path="res://ai.gd" id="1_c35dq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0xm2m"]
+
+[node name="AI" type="CharacterBody3D"]
+script = ExtResource("1_c35dq")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3999996, 2.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3999996, 2.1, -7.450581e-09)
+shape = SubResource("BoxShape3D_0xm2m")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

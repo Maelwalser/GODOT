@@ -1,5 +1,6 @@
 class_name AIController
 extends CharacterBody3D
+signal player_caught
 
 @export var walk_speed : float = 2.0
 @export var run_speed : float = 5.5
@@ -112,7 +113,9 @@ func update_chase_path():
 	# Check if we're close enough to attack
 	if player_distance <= attack_distance:
 		print("In attack range!")
+		emit_signal("player_caught")
 		is_stopped = true
+		is_chasing = false
 		return
 	is_stopped = false
 	

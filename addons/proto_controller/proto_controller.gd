@@ -83,8 +83,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			disable_freefly()
 
-
-
 func _physics_process(delta: float) -> void:
 	# If freeflying, handle freefly and nothing else
 	if can_freefly and freeflying:
@@ -98,12 +96,10 @@ func _physics_process(delta: float) -> void:
 	if has_gravity:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
-			# No sound play here anymore
-		# Update state tracking for air/ground transitions
 		if is_on_floor():
-			was_in_air = false  # Reset when on floor
+			was_in_air = false 
 		else:
-			was_in_air = true   # Set when airborne
+			was_in_air = true  
 
 	# Apply jumping
 	if can_jump:
@@ -134,7 +130,6 @@ func _physics_process(delta: float) -> void:
 	# Use velocity to actually move
 	move_and_slide()
 	
-	# Check for landing: Play sound only when transitioning from air to floor
 	if was_in_air and is_on_floor():
 		jump_landing_player.play()
 		
@@ -147,9 +142,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		if footstep_player.playing:
 			footstep_player.stop()
-			
-
-
+		
 ## Rotate us to look around.
 ## Base of controller rotates around y (left/right). Head rotates around x (up/down).
 ## Modifies look_rotation based on rot_input, then resets basis and rotates by look_rotation.

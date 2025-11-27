@@ -48,6 +48,8 @@ extends CharacterBody3D
 @export var input_sprint : String = "sprint"
 ## Name of Input Action to toggle freefly mode.
 @export var input_freefly : String = "freefly"
+## Name of the input for attacking
+@export var input_attack : String = "attack"
 
 var mouse_captured : bool = false
 var look_rotation : Vector2
@@ -59,6 +61,16 @@ var freeflying : bool = false
 @onready var collider: CollisionShape3D = $Collider
 @onready var footstep_player: AudioStreamPlayer3D = $FootstepPlayer
 @onready var jump_landing_player: AudioStreamPlayer3D = $JumpLandingPlayer
+@onready var attack_area = $TempAttack
+
+func _input(event):
+	if event.is_action_pressed("attack"):
+		attack()
+		
+func attack():
+	for body in attack_area.get_overlapping_bodies():
+		if body.has_method("take_damage"):
+			body.take_damage(1)
 
 func _ready() -> void:
 	check_input_mappings()

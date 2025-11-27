@@ -8,7 +8,7 @@
 
 [node name="DestructibleObject" instance=ExtResource("1_fvmfx")]
 
-[node name="Sketchfab_Scene" parent="Node3D" index="0" instance=ExtResource("2_ykn3o")]
+[node name="Sketchfab_Scene" parent="Model" index="0" instance=ExtResource("2_ykn3o")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
 [node name="CollisionShape3D" parent="." index="1"]

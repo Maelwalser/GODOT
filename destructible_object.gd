@@ -32,10 +32,21 @@ func destroy():
 	# Disable collision
 	collision_shape.disabled = true
 	
+	# Debug: Check sound and audio player
+	print("DEBUG: destruction_sound is null? ", destruction_sound == null)
+	print("DEBUG: audio_player is null? ", audio_player == null)
+	if destruction_sound:
+		print("DEBUG: destruction_sound path: ", destruction_sound.resource_path)
+	if audio_player:
+		print("DEBUG: audio_player exists, stream before assignment: ", audio_player.stream)
+	
 	# Play destruction sound
 	if destruction_sound and audio_player:
 		audio_player.stream = destruction_sound
 		audio_player.play()
+		print("DEBUG: Sound should be playing now!")
+	else:
+		print("DEBUG: Sound NOT played - condition failed!")
 	
 	# Simple destruction effect - shrink and spin
 	var tween = create_tween()

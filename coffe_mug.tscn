@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfux4dfuytnx8"]
+
+[ext_resource type="PackedScene" uid="uid://cpfyp1gqs6j0d" path="res://destructible_object.tscn" id="1_88gyh"]
+[ext_resource type="ArrayMesh" uid="uid://nig723ic0ev2" path="res://addons/destructible_objects/Simple Old Mug/Mug.obj" id="2_eca07"]
+
+[node name="DestructibleObject" instance=ExtResource("1_88gyh")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" index="0"]
+mesh = ExtResource("2_eca07")

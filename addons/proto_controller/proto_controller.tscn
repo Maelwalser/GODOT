@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dqnk43a5pyl5q" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="AudioStream" uid="uid://bou8gkvr4bgx6" path="res://audio/sound_effect/player_and_npc/running-on-the-floor-359909.mp3" id="2_wr06p"]
-[ext_resource type="AudioStream" uid="uid://dr8mx4b054tyo" path="res://audio/sound_effect/player_and_npc/jump_landing.mp3" id="3_5hfox"]
+[ext_resource type="AudioStream" uid="uid://1y28h86qxjr1" path="res://audio/sound_effect/player_and_npc/soft_landing.mp3" id="3_5hfox"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -45,3 +45,4 @@ stream = ExtResource("2_wr06p")
 
 [node name="JumpLandingPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_5hfox")
+volume_db = 10.0

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://b04blfvjaquqy"]
+
+[ext_resource type="PackedScene" uid="uid://cpfyp1gqs6j0d" path="res://destructible_object.tscn" id="1_fvmfx"]
+[ext_resource type="PackedScene" uid="uid://c1x4su6bl3al5" path="res://addons/destructible_objects/ikea_glass/scene.gltf" id="2_ykn3o"]
+
+[node name="DestructibleObject" instance=ExtResource("1_fvmfx")]
+
+[node name="Sketchfab_Scene" parent="Node3D" index="0" instance=ExtResource("2_ykn3o")]

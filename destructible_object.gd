@@ -3,7 +3,7 @@ extends RigidBody3D
 class_name DestructibleObject
 
 # Export variables for easy customization per object type
-@export var object_type: String = "generic"  # "mug", "glass", "tv", etc.
+@export var object_type: String = "generic" 
 @export var destruction_sound: AudioStream
 @export var particle_color: Color = Color.WHITE
 @export var particle_count: int = 30
@@ -19,34 +19,16 @@ func _ready():
 	collision_layer = 2
 	collision_mask = 1
 	
-	print("====== READY DEBUG ======")
-	print("Object type: ", object_type)
-	print("particle_color value: ", particle_color)
-	print("particle_count value: ", particle_count)
-	
 	if particles:
-		print("Particles exists!")
-		print("Process material before: ", particles.process_material)
 		
-		# Set amount first
 		particles.amount = particle_count
 		
-		# Now handle the material
 		if particles.process_material:
-			print("Original material color: ", particles.process_material.color)
 			
-			# Duplicate it
-			particles.process_material = particles.process_material.duplicate(true)  # true = deep copy
+			particles.process_material = particles.process_material.duplicate(true)  
 			
-			print("After duplicate, material is: ", particles.process_material)
-			print("After duplicate, color is: ", particles.process_material.color)
-			
-			# Set the color
 			particles.process_material.color = particle_color
 			
-			print("After setting color: ", particles.process_material.color)
-			print("particle_color we tried to set: ", particle_color)
-
 func take_damage(_amount: int = 1):
 	if is_destroyed:
 		return
@@ -60,27 +42,9 @@ func destroy():
 	is_destroyed = true
 	collision_shape.disabled = true
 	
-	# DEBUG: Check particle setup
-	print("=== PARTICLE DEBUG ===")
-	print("Particles node exists? ", particles != null)
-	if particles:
-		print("Particles emitting before: ", particles.emitting)
-		print("Particles amount: ", particles.amount)
-		print("Particles lifetime: ", particles.lifetime)
-		print("Particles one_shot: ", particles.one_shot)
-		print("Particles explosiveness: ", particles.explosiveness)
-		print("Particles visibility: ", particles.visible)
-		print("Particles process_material: ", particles.process_material)
-		if particles.process_material:
-			print("Material color: ", particles.process_material.color)
-		print("Particles global_position: ", particles.global_position)
-	
-	# Trigger particle effect
 	if particles:
 		particles.emitting = true
-		print("Particles emitting after: ", particles.emitting)
-	
-	# Play destruction sound
+
 	if destruction_sound and audio_player:
 		audio_player.stream = destruction_sound
 		audio_player.play()

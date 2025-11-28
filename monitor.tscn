@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh2yhlp1aoa3g"]
+
+[ext_resource type="PackedScene" uid="uid://blqg83qk728j5" path="res://destructible_object.tscn" id="1_qh22o"]
+[ext_resource type="AudioStream" uid="uid://7iuyfwnir3f3" path="res://audio/sound_effect/objects_and_interactions/MonitorShatter.mp3" id="2_8qdrl"]
+[ext_resource type="PackedScene" uid="uid://coln2q5m40h86" path="res://addons/destructible_objects/monitor/MonitorScene.gltf" id="2_fa1fk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fa1fk"]
+
+[node name="DestructibleObject" instance=ExtResource("1_qh22o")]
+destruction_sound = ExtResource("2_8qdrl")
+particle_color = Color(0, 0, 0, 1)
+
+[node name="Sketchfab_Scene" parent="Model" index="0" instance=ExtResource("2_fa1fk")]
+transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 1.5321174, 0.8428359, 0)
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1.8, 0, 0, 0, 1.3, 0, 0, 0, 0.3, -0.061663866, 0.7525502, 0)
+shape = SubResource("BoxShape3D_fa1fk")
+
+[node name="AudioStreamPlayer3D" parent="." index="2"]
+volume_db = 6.0
+max_db = 6.0
+max_distance = 5.0

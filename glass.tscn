@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bocgokcdbv8ae"]
+
+[ext_resource type="PackedScene" uid="uid://blqg83qk728j5" path="res://destructible_object.tscn" id="1_fvmfx"]
+[ext_resource type="AudioStream" uid="uid://ctptoktojn7h3" path="res://audio/sound_effect/objects_and_interactions/glass-breaking-sound-effect-240679.mp3" id="2_b8qbv"]
+[ext_resource type="PackedScene" uid="uid://c1x4su6bl3al5" path="res://addons/destructible_objects/ikea_glass/scene.gltf" id="2_ykn3o"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b8qbv"]
+
+[node name="DestructibleObject" instance=ExtResource("1_fvmfx")]
+destruction_sound = ExtResource("2_b8qbv")
+particle_color = Color(0.47787982, 0.4778803, 0.47788, 1)
+
+[node name="Sketchfab_Scene" parent="Model" index="0" instance=ExtResource("2_ykn3o")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(0.3, 0, 0, 0, 0.221, 0, 0, 0, 0.3, 0, 0.2536854, 0)
+shape = SubResource("CylinderShape3D_b8qbv")
+
+[node name="AudioStreamPlayer3D" parent="." index="2"]
+max_distance = 5.0

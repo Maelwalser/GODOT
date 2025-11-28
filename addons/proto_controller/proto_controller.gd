@@ -5,6 +5,11 @@
 
 extends CharacterBody3D
 
+## Was player in air previously?
+@export var was_on_floor : bool = false
+##Was player on the ground previously?
+@export var was_in_air : bool = false
+
 ## Can we move around?
 @export var can_move : bool = true
 ## Are we affected by gravity?
@@ -20,11 +25,11 @@ extends CharacterBody3D
 ## Look around rotation speed.
 @export var look_speed : float = 0.002
 ## Normal speed.
-@export var base_speed : float = 7.0
+@export var base_speed : float = 9.0
 ## Speed of jump.
-@export var jump_velocity : float = 4.5
+@export var jump_velocity : float = 5.5
 ## How fast do we run?
-@export var sprint_speed : float = 10.0
+@export var sprint_speed : float = 12.0
 ## How fast do we freefly?
 @export var freefly_speed : float = 25.0
 
@@ -43,6 +48,8 @@ extends CharacterBody3D
 @export var input_sprint : String = "sprint"
 ## Name of Input Action to toggle freefly mode.
 @export var input_freefly : String = "freefly"
+## Name of the input for attacking
+@export var input_attack : String = "attack"
 
 var mouse_captured : bool = false
 var look_rotation : Vector2
@@ -52,6 +59,18 @@ var freeflying : bool = false
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
 @onready var collider: CollisionShape3D = $Collider
+@onready var footstep_player: AudioStreamPlayer3D = $FootstepPlayer
+@onready var jump_landing_player: AudioStreamPlayer3D = $JumpLandingPlayer
+@onready var attack_area = $TempAttack
+
+func _input(event):
+	if event.is_action_pressed("attack"):
+		attack()
+		
+func attack():
+	for body in attack_area.get_overlapping_bodies():
+		if body.has_method("take_damage"):
+			body.take_damage(1)
 
 func _ready() -> void:
 	check_input_mappings()
@@ -89,15 +108,19 @@ func _physics_process(delta: float) -> void:
 	if has_gravity:
 		if not is_on_floor():
 			velocity += get_gravity() * delta
+		if is_on_floor():
+			was_in_air = false 
+		else:
+			was_in_air = true  
 
 	# Apply jumping
 	if can_jump:
 		if Input.is_action_just_pressed(input_jump) and is_on_floor():
 			velocity.y = jump_velocity
-
+			
 	# Modify speed based on sprinting
 	if can_sprint and Input.is_action_pressed(input_sprint):
-			move_speed = sprint_speed
+		move_speed = sprint_speed
 	else:
 		move_speed = base_speed
 
@@ -105,6 +128,7 @@ func _physics_process(delta: float) -> void:
 	if can_move:
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
 		var move_dir := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		
 		if move_dir:
 			velocity.x = move_dir.x * move_speed
 			velocity.z = move_dir.z * move_speed
@@ -117,8 +141,20 @@ func _physics_process(delta: float) -> void:
 	
 	# Use velocity to actually move
 	move_and_slide()
-
-
+	
+	if was_in_air and is_on_floor():
+		jump_landing_player.play()
+		
+	var is_moving = velocity.length() > 0.1  
+	
+	if is_moving and is_on_floor():
+		if not footstep_player.playing:
+			footstep_player.play()
+			
+	else:
+		if footstep_player.playing:
+			footstep_player.stop()
+		
 ## Rotate us to look around.
 ## Base of controller rotates around y (left/right). Head rotates around x (up/down).
 ## Modifies look_rotation based on rot_input, then resets basis and rotates by look_rotation.

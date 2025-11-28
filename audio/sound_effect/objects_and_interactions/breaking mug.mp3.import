@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b2uwesico6pvx"
+path="res://.godot/imported/breaking mug.mp3-120b072a67346df7dd393fb1dba96239.mp3str"
+
+[deps]
+
+source_file="res://audio/sound_effect/objects_and_interactions/breaking mug.mp3"
+dest_files=["res://.godot/imported/breaking mug.mp3-120b072a67346df7dd393fb1dba96239.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

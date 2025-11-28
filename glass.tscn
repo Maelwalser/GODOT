@@ -8,6 +8,7 @@
 
 [node name="DestructibleObject" instance=ExtResource("1_fvmfx")]
 destruction_sound = ExtResource("2_b8qbv")
+particle_color = Color(0.47787982, 0.4778803, 0.47788, 1)
 
 [node name="Sketchfab_Scene" parent="Model" index="0" instance=ExtResource("2_ykn3o")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://byxaa88rghp61"]
+
+[ext_resource type="PackedScene" uid="uid://by1cnj58ptphl" path="res://addons/assets/monitor/scene.gltf" id="1_qvmuf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kt4gt"]
+size = Vector3(0.957886, 1.54004, 3.99158)
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00874519, -0.0114393, 0.0151167)
+
+[node name="Sketchfab_Scene2" parent="." instance=ExtResource("1_qvmuf")]
+transform = Transform3D(33.7595, 0, -9.23556, 0, 35, 0, 9.23556, 0, 33.7595, 0, 0, -1.6804)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_qvmuf")]
+transform = Transform3D(33.7668, 0, 9.20904, 0, 35, 0, -9.20904, 0, 33.7668, 0, 0, 1.67164)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1.65663, 0, 0, 0, 1.65663, 0, 0, 0, 1.65663, -0.0219415, 1.25966, 0.00839233)
+shape = SubResource("BoxShape3D_kt4gt")

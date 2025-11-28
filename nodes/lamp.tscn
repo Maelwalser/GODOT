@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://0kb6ko8o0oei"]
+
+[ext_resource type="PackedScene" uid="uid://cmvkk7odbvu08" path="res://addons/assets/lamp/scene.gltf" id="1_re5dc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t6qnj"]
+size = Vector3(4.75531, 13.1143, 2.60291)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="lamp" parent="." instance=ExtResource("1_re5dc")]
+transform = Transform3D(-2.91774e-07, 0, 6.675, 0, 6.675, 0, -6.675, 0, -2.91774e-07, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.618011, 6.5249, 0.0055542)
+shape = SubResource("BoxShape3D_t6qnj")

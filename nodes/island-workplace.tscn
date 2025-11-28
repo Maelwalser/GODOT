@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://07ryv4xc1gak"]
+
+[ext_resource type="PackedScene" uid="uid://cyetaahi67ssp" path="res://nodes/work-place.tscn" id="1_psrwd"]
+[ext_resource type="PackedScene" uid="uid://cx481xawi78um" path="res://nodes/wall.tscn" id="2_ki6p2"]
+[ext_resource type="PackedScene" uid="uid://0kb6ko8o0oei" path="res://nodes/lamp.tscn" id="3_4v8iv"]
+[ext_resource type="PackedScene" uid="uid://b1vv7wsmft8c0" path="res://nodes/chair.tscn" id="4_12nny"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="work-place2" parent="." instance=ExtResource("1_psrwd")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.0010376, -0.0169592, -4.01747)
+
+[node name="wall" parent="." instance=ExtResource("2_ki6p2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.616, 0, -0.005)
+
+[node name="work-place5" parent="." instance=ExtResource("1_psrwd")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, -0.0339184, 0)
+
+[node name="work-place" parent="." instance=ExtResource("1_psrwd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="work-place3" parent="." instance=ExtResource("1_psrwd")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -11.9421, -0.0339184, 4)
+
+[node name="work-place4" parent="." instance=ExtResource("1_psrwd")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11.9431, -0.0169592, -4.01747)
+
+[node name="lamp3" parent="." instance=ExtResource("3_4v8iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.69356, 0, -0.0200691)
+
+[node name="chair2" parent="." instance=ExtResource("4_12nny")]
+transform = Transform3D(-0.337046, 0, 0.941488, 0, 1, 0, -0.941488, 0, -0.337046, -11.6901, 0, -7.31266)
+
+[node name="chair4" parent="." instance=ExtResource("4_12nny")]
+transform = Transform3D(0.262828, 0, -0.964843, 0, 1, 0, 0.964843, 0, 0.262828, 2.09, 0, 6.50153)
+
+[node name="chair3" parent="." instance=ExtResource("4_12nny")]
+transform = Transform3D(0.077242, 0, 0.997013, 0, 1, 0, -0.997013, 0, 0.077242, 2.151, 0, -6.75093)
+
+[node name="chair" parent="." instance=ExtResource("4_12nny")]
+transform = Transform3D(-0.403498, 0, -0.914981, 0, 1, 0, 0.914981, 0, -0.403498, -14.0242, 0, 7.10848)
+
+[node name="chair5" parent="." instance=ExtResource("4_12nny")]
+transform = Transform3D(0.998143, 0, 0.0609231, 0, 1, 0, -0.0609231, 0, 0.998143, 11.6817, 0, 1.1784)
+
+[node name="lamp" parent="." instance=ExtResource("3_4v8iv")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -12.7158, 0, -0.0200691)

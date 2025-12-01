@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://dsotllufni8ku"]
+[gd_scene load_steps=40 format=4 uid="uid://dsotllufni8ku"]
 
 [ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
@@ -31,6 +31,8 @@
 [ext_resource type="Texture2D" uid="uid://bi105jca6xwq3" path="res://addons/assets/easter-eggs/nuckls/knuckles_meme_0.png" id="30_wfoln"]
 [ext_resource type="Texture2D" uid="uid://cs5ohdkq5o7et" path="res://addons/assets/easter-eggs/nuckls/knuckles_meme_1.png" id="31_gbnnl"]
 [ext_resource type="PackedScene" uid="uid://nri88k6c1s00" path="res://nodes/knuckles.tscn" id="31_lbfya"]
+[ext_resource type="Texture2D" uid="uid://dcyu6umgam6nj" path="res://addons/assets/pictures/photo_2025-12-01_15-23-29.jpg" id="32_llqxa"]
+[ext_resource type="Texture2D" uid="uid://c16utaqu71cdh" path="res://addons/assets/pictures/photo_2025-12-01_15-23-31.jpg" id="33_ei8lr"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1bbv"]
 resource_name = "Material.001"
@@ -174,7 +176,7 @@ blend_shape_mode = 0
 [node name="Node3D" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("2_q5j75")]
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.2083, 6.30661, -20.6549)
+transform = Transform3D(-0.0433577, 0, 0.99906, 0, 1, 0, -0.99906, 0, -0.0433577, 91.2083, 6.30661, -20.6549)
 
 [node name="lindenhofpark" parent="." instance=ExtResource("2_n7cui")]
 transform = Transform3D(0.54, 0, 0, 0, 0.54, 0, 0, 0, 0.54, 33.5799, 4.21247, -30.4205)
@@ -457,7 +459,7 @@ transform = Transform3D(-0.0698991, 0, -0.00375745, 0.00363395, -0.0177997, -0.0
 transform = Transform3D(0.00258393, -0.0687297, 0.0130212, 0.0133779, 0.0132751, 0.0674152, -0.0686612, -1.01153e-09, 0.0136252, -9.4185, 4.20988, -28.6117)
 
 [node name="knuckles5" parent="." instance=ExtResource("31_lbfya")]
-transform = Transform3D(-0.00179739, -0.0195, 0.067205, -0.000521339, 0.0672291, 0.0194931, -0.069975, 0, -0.00187147, -1.7453, 5.72166, 0.894766)
+transform = Transform3D(-0.00179739, -0.0195, 0.067205, -0.0072783, -0.0668105, -0.0195802, 0.0695974, -0.00749045, -0.000312041, -2.43487, 9.41477, -0.527051)
 
 [node name="knuckles6" parent="." instance=ExtResource("31_lbfya")]
 transform = Transform3D(-0.047629, 0, -0.051298, 0, 0.07, 0, 0.051298, 0, -0.047629, -34.0848, 4.20988, -7.55416)
@@ -727,6 +729,19 @@ text = "Find 9 Knuckles and get a cookie! Good luck <3"
 
 [node name="kallax2" parent="." instance=ExtResource("13_7axiy")]
 transform = Transform3D(5.71295e-15, 1.30697e-07, 2.99, 2.99, -1.30697e-07, 0, 1.30697e-07, 2.99, -1.30697e-07, 62.7756, 6.15514, -25.737)
+
+[node name="Node3D45" type="Node3D" parent="."]
+transform = Transform3D(0.0212528, 0, 0.198868, 0, 0.2, 0, -0.198868, 0, 0.0212528, 57.6872, 8.69379, -2.56033)
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D45"]
+transform = Transform3D(1.1925, 0, 0.128304, 0, 1.19938, 0, -0.128304, 0, 1.1925, 0, 0.0290709, 0)
+texture = ExtResource("32_llqxa")
+
+[node name="Node3D46" type="Node3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 44.3794, 7.89383, -10.413)
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D46"]
+texture = ExtResource("33_ei8lr")
 
 [connection signal="body_entered" from="Sketchfab_Scene5/Area3D" to="Sketchfab_Scene5" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Sketchfab_Scene5/Area3D" to="Sketchfab_Scene5" method="_on_area_3d_body_exited"]

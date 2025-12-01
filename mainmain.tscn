@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dsotllufni8ku"]
+[gd_scene load_steps=26 format=3 uid="uid://dsotllufni8ku"]
 
 [ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
@@ -23,11 +23,13 @@
 [ext_resource type="PackedScene" uid="uid://dh1botqgnp7dd" path="res://nodes/shelfblock.tscn" id="21_map38"]
 [ext_resource type="PackedScene" uid="uid://bs5dhw2dxspa6" path="res://nodes/chestblock.tscn" id="22_hkylr"]
 [ext_resource type="PackedScene" uid="uid://by1cnj58ptphl" path="res://addons/assets/monitor/scene.gltf" id="23_3b0m2"]
+[ext_resource type="PackedScene" uid="uid://dxfls6rbiiuxv" path="res://addons/assets/cup-full/cupfull.glb" id="24_pbp4b"]
+[ext_resource type="PackedScene" uid="uid://bgik14x1d3me" path="res://addons/assets/cup-full/cupfall.glb" id="25_13kir"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("2_q5j75")]
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.329, 6.30661, -20.7989)
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.2083, 6.30661, -20.6549)
 
 [node name="lindenhofpark" parent="." instance=ExtResource("2_n7cui")]
 transform = Transform3D(0.54, 0, 0, 0, 0.54, 0, 0, 0, 0.54, 33.5799, 4.21247, -30.4205)
@@ -72,7 +74,7 @@ transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, 
 transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, -0.0932745)
 
 [node name="shelf9" parent="." instance=ExtResource("4_6j3ss")]
-transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.5639, 3.38618, 2.40493)
+transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, 2.65583)
 
 [node name="shelf10" parent="." instance=ExtResource("4_6j3ss")]
 transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, 5.38876)
@@ -283,3 +285,12 @@ transform = Transform3D(0.475282, 0, 0, 0, 0.267444, 0, 0, 0, 0.469169, -5.19796
 
 [node name="Sketchfab_Scene" parent="." instance=ExtResource("23_3b0m2")]
 transform = Transform3D(27.9927, 0, -25.4687, 0, 37.845, 0, 25.4687, 0, 27.9927, -8.8065, 6.17265, -29.7347)
+
+[node name="cupfull" parent="." instance=ExtResource("24_pbp4b")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 42.6929, 5.85571, -27.542)
+
+[node name="cupfall" parent="." instance=ExtResource("25_13kir")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 43.148, 5.85571, -28.0605)
+
+[node name="Node3D44" parent="." instance=ExtResource("9_fcn4g")]
+transform = Transform3D(0.295968, 0, 0, 0, 0.4, 0, 0, 0, 0.235901, 26.8122, 4.20988, -25.5609)

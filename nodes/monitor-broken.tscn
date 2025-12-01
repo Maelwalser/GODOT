@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmhtfwwfm7twd"]
+
+[ext_resource type="PackedScene" uid="uid://y8ih6oghphpx" path="res://addons/assets/monitor/broken/broken.glb" id="1_cxtt3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0iy0n"]
+size = Vector3(0.957886, 1.54004, 3.99158)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1.65663, 0, 0, 0, 1.65663, 0, 0, 0, 1.65663, -0.0219415, 1.25966, 0.00839233)
+shape = SubResource("BoxShape3D_0iy0n")
+
+[node name="broken" parent="." instance=ExtResource("1_cxtt3")]
+transform = Transform3D(33.7595, 0, 9.23556, 0, 35, 0, -9.23556, 0, 33.7595, 0, 0, 1.672)
+
+[node name="broken2" parent="." instance=ExtResource("1_cxtt3")]
+transform = Transform3D(33.7595, 0, -9.23556, 0, 35, 0, 9.23556, 0, 33.7595, 0, 0, -1.68)

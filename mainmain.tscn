@@ -1,7 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://dsotllufni8ku"]
+[gd_scene load_steps=25 format=3 uid="uid://dsotllufni8ku"]
 
 [ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
-[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://07ryv4xc1gak" path="res://nodes/island-workplace.tscn" id="3_s0ldu"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
 [ext_resource type="PackedScene" uid="uid://dngkfvf80nu7d" path="res://nodes/island-half.tscn" id="5_w1kg0"]
@@ -11,25 +10,22 @@
 [ext_resource type="PackedScene" uid="uid://nnw02k8j2e7l" path="res://nodes/table.tscn" id="9_fcn4g"]
 [ext_resource type="PackedScene" uid="uid://0kb6ko8o0oei" path="res://nodes/lamp.tscn" id="10_6mct3"]
 [ext_resource type="PackedScene" uid="uid://7eyrthvxhcti" path="res://addons/assets/shelf-kallax/scene.gltf" id="11_nhmae"]
-[ext_resource type="PackedScene" uid="uid://c4kl1jdet37qo" path="res://nodes/kallax.tscn" id="13_7axiy"]
-[ext_resource type="PackedScene" uid="uid://ceq83qhmm45al" path="res://nodes/sofa.tscn" id="13_widbm"]
+[ext_resource type="PackedScene" path="res://nodes/kallax.tscn" id="13_7axiy"]
+[ext_resource type="PackedScene" path="res://nodes/sofa.tscn" id="13_widbm"]
 [ext_resource type="PackedScene" uid="uid://cx481xawi78um" path="res://nodes/wall.tscn" id="14_njy6y"]
 [ext_resource type="PackedScene" uid="uid://cbipslsh4i8bj" path="res://nodes/work-place-bb.tscn" id="15_rbont"]
 [ext_resource type="PackedScene" uid="uid://b1vv7wsmft8c0" path="res://nodes/chair.tscn" id="16_66g5l"]
-[ext_resource type="PackedScene" uid="uid://uq4cooxw5vvy" path="res://nodes/lightbox.tscn" id="17_mmf5p"]
-[ext_resource type="PackedScene" uid="uid://b11pimdohjui5" path="res://nodes/largecloset.tscn" id="18_52a5l"]
-[ext_resource type="PackedScene" uid="uid://dccnufj60os2p" path="res://nodes/smallcloset.tscn" id="19_f8b34"]
+[ext_resource type="PackedScene" path="res://nodes/lightbox.tscn" id="17_mmf5p"]
+[ext_resource type="PackedScene" path="res://nodes/largecloset.tscn" id="18_52a5l"]
+[ext_resource type="PackedScene" path="res://nodes/smallcloset.tscn" id="19_f8b34"]
 [ext_resource type="PackedScene" uid="uid://bo5a0prgimq0v" path="res://nodes/monitor-bb.tscn" id="20_f74a3"]
-[ext_resource type="PackedScene" uid="uid://dh1botqgnp7dd" path="res://nodes/shelfblock.tscn" id="21_map38"]
-[ext_resource type="PackedScene" uid="uid://bs5dhw2dxspa6" path="res://nodes/chestblock.tscn" id="22_hkylr"]
+[ext_resource type="PackedScene" path="res://nodes/shelfblock.tscn" id="21_map38"]
+[ext_resource type="PackedScene" path="res://nodes/chestblock.tscn" id="22_hkylr"]
 [ext_resource type="PackedScene" uid="uid://by1cnj58ptphl" path="res://addons/assets/monitor/scene.gltf" id="23_3b0m2"]
 [ext_resource type="PackedScene" uid="uid://dxfls6rbiiuxv" path="res://addons/assets/cup-full/cupfull.glb" id="24_pbp4b"]
 [ext_resource type="PackedScene" uid="uid://bgik14x1d3me" path="res://addons/assets/cup-full/cupfall.glb" id="25_13kir"]
 
 [node name="Node3D" type="Node3D"]
-
-[node name="Player" parent="." instance=ExtResource("2_q5j75")]
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.2083, 6.30661, -20.6549)
 
 [node name="lindenhofpark" parent="." instance=ExtResource("2_n7cui")]
 transform = Transform3D(0.54, 0, 0, 0, 0.54, 0, 0, 0, 0.54, 33.5799, 4.21247, -30.4205)

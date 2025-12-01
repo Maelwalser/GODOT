@@ -9,7 +9,9 @@ signal player_caught
 @export var vision_angle : float = 45.0
 @export var lose_player_delay : float = 1.0
 @export var chase_update_interval : float = 0.2
-@export var attack_distance : float = 1.5
+@export var attack_distance : float = 2.0
+
+
 
 var is_running : bool = false
 var is_stopped : bool = true
@@ -19,6 +21,7 @@ var time_since_lost_sight : float = 0.0
 var player_was_in_cone : bool = false
 var time_since_path_update : float = 0.0
 
+@onready var anim_player : AnimationPlayer = $Haru/AnimationPlayer
 @onready var agent : NavigationAgent3D = get_node("NavigationAgent3D")
 @onready var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var player = get_tree().get_nodes_in_group("Player")[0] if get_tree().get_nodes_in_group("Player").size() > 0 else null
@@ -149,6 +152,17 @@ func _physics_process(delta):
 		velocity.z = 0
 	
 	move_and_slide()
+	if anim_player:
+		var horizontal_speed = Vector3(velocity.x, 0, velocity.z).length()
+	
+		var walk_anim_name = "walk" 
+
+		if horizontal_speed > 0.1:
+			if anim_player.current_animation != walk_anim_name:
+				anim_player.play(walk_anim_name, 0.2)
+		else:
+			if anim_player.is_playing():
+				anim_player.stop()
 	
 	# Rotation Logic (Maintained your preferred orientation)
 	if look_at_player and player != null:
@@ -217,6 +231,6 @@ func create_vision_visual_from_collision():
 func update_vision_color(tracking: bool):
 	if vision_visual and vision_visual.material_override:
 		if tracking:
-			vision_visual.material_override.albedo_color = Color(1.0, 1.0, 0.0, 0.2)
+			vision_visual.material_override.albedo_color = Color(1.0, 1.0, 0.0, 0.1)
 		else:
-			vision_visual.material_override.albedo_color = Color(1.0, 0.0, 0.0, 0.2)
+			vision_visual.material_override.albedo_color = Color(1.0, 0.0, 0.0, 0.1)

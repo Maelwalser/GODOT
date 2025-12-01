@@ -59,7 +59,7 @@ shape = SubResource("BoxShape3D_0odxb")
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyCharacter/Area3D"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.04701233, 0.60696006, 1.8045883)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.04701233, 0.60696006, 1.8422947)
 shape = SubResource("CapsuleShape3D_0odxb")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]

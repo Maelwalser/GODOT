@@ -13,7 +13,7 @@ height = 1.8
 radius = 0.4
 height = 1.8
 
-[node name="ProtoController" type="CharacterBody3D" groups=["Player"]]
+[node name="ProtoController" type="CharacterBody3D"]
 collision_layer = 2
 safe_margin = 0.5
 script = ExtResource("1_ucva2")

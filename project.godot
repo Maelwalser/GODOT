@@ -19,9 +19,9 @@ config/icon="res://icon.svg"
 
 GameManager="*res://GameManager.gd"
 
-[dotnet]
+[filesystem]
 
-project/assembly_name="TestGodot"
+import/blender/enabled=false
 
 [input]
 

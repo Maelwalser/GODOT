@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://dsotllufni8ku"]
+[gd_scene load_steps=14 format=3 uid="uid://dj478lmy7vnfu"]
 
-[ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
+[ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://07ryv4xc1gak" path="res://nodes/island-workplace.tscn" id="3_s0ldu"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://0kb6ko8o0oei" path="res://nodes/lamp.tscn" id="10_6mct3"]
 [ext_resource type="PackedScene" uid="uid://7eyrthvxhcti" path="res://addons/assets/shelf-kallax/scene.gltf" id="11_nhmae"]
 [ext_resource type="PackedScene" uid="uid://qun4ayf8q6j5" path="res://addons/assets/sofa/sofa.glb" id="12_h6wg1"]
+[ext_resource type="PackedScene" path="res://coffe_mug.tscn" id="13_iaru6"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -119,3 +120,6 @@ transform = Transform3D(-0.32, 0, -4.00139e-08, 0, 0.555, 0, 4.83187e-08, 0, -0.
 
 [node name="Sketchfab_Scene3" parent="." instance=ExtResource("12_h6wg1")]
 transform = Transform3D(-1.31134e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.31134e-09, 30.4842, 4.20988, -31.8702)
+
+[node name="DestructibleObject" parent="." instance=ExtResource("13_iaru6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.370634, 6.0605254, 0.78961265)

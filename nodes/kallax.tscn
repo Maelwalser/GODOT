@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4kl1jdet37qo"]
+
+[ext_resource type="PackedScene" uid="uid://7eyrthvxhcti" path="res://addons/assets/shelf-kallax/scene.gltf" id="1_2cnu2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t5by7"]
+size = Vector3(1.30615, 0.719208, 0.397461)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_2cnu2")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0012207, 0.352249, 0.000488281)
+shape = SubResource("BoxShape3D_t5by7")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bs5dhw2dxspa6"]
+
+[ext_resource type="PackedScene" uid="uid://cqddvx7cnhie2" path="res://addons/assets/chestblock/chestblock.glb" id="1_dja5x"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3kdg6"]
+size = Vector3(2.04199, 1.94574, 1.95935)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="chestblock" parent="." instance=ExtResource("1_dja5x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00244141, -0.0101013, 0.00653076)
+shape = SubResource("BoxShape3D_3kdg6")

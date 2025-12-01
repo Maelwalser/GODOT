@@ -12,7 +12,6 @@ backface_collision = true
 [node name="StaticBody3D" type="StaticBody3D" parent="walls_007" index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="walls_007/StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_copq1")
 
 [node name="LightmapGI" type="LightmapGI" parent="." index="16"]

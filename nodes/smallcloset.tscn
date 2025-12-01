@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dccnufj60os2p"]
+
+[ext_resource type="PackedScene" uid="uid://c5vqiwc8eb2n2" path="res://addons/assets/closet/small/smallcloset.glb" id="1_7lfdi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g4moq"]
+size = Vector3(1.99573, 7.98389, 1.99591)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="smallcloset" parent="." instance=ExtResource("1_7lfdi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0320435, 3.96863, -0.00204468)
+shape = SubResource("BoxShape3D_g4moq")

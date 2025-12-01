@@ -1,4 +1,4 @@
-class_name AIController
+class_name AIControllerHaru
 extends CharacterBody3D
 signal player_caught
 
@@ -28,7 +28,7 @@ var time_since_path_update : float = 0.0
 @onready var vision_area : Area3D = $Area3D
 
 @export var show_vision_area : bool = true
-@export var vision_color : Color = Color(1.0, 0.0, 0.0, 0.5)
+@export var vision_color : Color = Color(1.0, 0.0, 0.0, 0.4)
 @onready var vision_collision : CollisionShape3D = $Area3D/CollisionShape3D
 @onready var vision_visual : MeshInstance3D
 

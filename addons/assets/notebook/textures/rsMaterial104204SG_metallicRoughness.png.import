@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://d1s64gqe4wx76"
+path.s3tc="res://.godot/imported/rsMaterial104204SG_metallicRoughness.png-3c27483c9a493a26e62ccc223cd9b372.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://addons/assets/notebook/textures/rsMaterial104204SG_metallicRoughness.png"
+dest_files=["res://.godot/imported/rsMaterial104204SG_metallicRoughness.png-3c27483c9a493a26e62ccc223cd9b372.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

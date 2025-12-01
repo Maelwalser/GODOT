@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbipslsh4i8bj"]
+
+[ext_resource type="PackedScene" uid="uid://nnw02k8j2e7l" path="res://nodes/table.tscn" id="1_sbntb"]
+[ext_resource type="PackedScene" uid="uid://bo5a0prgimq0v" path="res://nodes/monitor-bb.tscn" id="2_phlho"]
+[ext_resource type="PackedScene" uid="uid://um3pcjy2lw2h" path="res://nodes/notebook.tscn" id="3_lty22"]
+[ext_resource type="PackedScene" uid="uid://bu46y5bpaamk8" path="res://nodes/keyboard-mouse.tscn" id="4_6wk2x"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="table" parent="." instance=ExtResource("1_sbntb")]
+
+[node name="monitor" parent="." instance=ExtResource("2_phlho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.357345, 4.13784, -2.02493)
+
+[node name="keyboard-mouse" parent="." instance=ExtResource("4_6wk2x")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0.59191, 4.07417, 0.517258)
+
+[node name="notebook" parent="." instance=ExtResource("3_lty22")]
+transform = Transform3D(1.24626, 0, 0.760544, 0, 1.46, 0, -0.760544, 0, 1.24626, -3.62972, 4.11137, 0.294469)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Office Floor Lamp (Silver)
+* source:	https://sketchfab.com/3d-models/office-floor-lamp-silver-37b9d6a1402e4fcea271c118c93eca72
+* author:	Christian (https://sketchfab.com/Enzi1984)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Office Floor Lamp (Silver)" (https://sketchfab.com/3d-models/office-floor-lamp-silver-37b9d6a1402e4fcea271c118c93eca72) by Christian (https://sketchfab.com/Enzi1984) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

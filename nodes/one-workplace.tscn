@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdutr0hemgiic"]
+
+[ext_resource type="PackedScene" uid="uid://cyetaahi67ssp" path="res://nodes/work-place.tscn" id="1_pd4h5"]
+[ext_resource type="PackedScene" uid="uid://0kb6ko8o0oei" path="res://nodes/lamp.tscn" id="2_2cx3y"]
+[ext_resource type="PackedScene" uid="uid://b1vv7wsmft8c0" path="res://nodes/chair.tscn" id="3_g1d8c"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="work-place" parent="." instance=ExtResource("1_pd4h5")]
+
+[node name="lamp" parent="." instance=ExtResource("2_2cx3y")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5.97904, 0, -0.0200691)
+
+[node name="chair" parent="." instance=ExtResource("3_g1d8c")]
+transform = Transform3D(0.0812253, 0, -0.996696, 0, 1, 0, 0.996696, 0, 0.0812253, -0.681226, 9.53674e-07, 1.60205)

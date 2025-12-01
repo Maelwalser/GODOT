@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://uq4cooxw5vvy"]
+
+[ext_resource type="PackedScene" uid="uid://dh4omnxr1m2ti" path="res://addons/assets/light-box/lightbox.glb" id="1_sgs3w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3voav"]
+size = Vector3(1.75269, 3.16016, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="lightbox" parent="." instance=ExtResource("1_sgs3w")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00402832, 1.58301, 0)
+shape = SubResource("BoxShape3D_3voav")

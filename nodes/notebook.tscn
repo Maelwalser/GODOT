@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://um3pcjy2lw2h"]
+
+[ext_resource type="PackedScene" uid="uid://cewfi8ndely6s" path="res://addons/assets/notebook/scene.gltf" id="1_lpjvu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rsa87"]
+size = Vector3(1.27267, 0.0802002, 0.832031)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_lpjvu")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.173648, -0.984808, 0, 0.984808, 0.173648, 0.00266027, 0.401383, -0.466449)
+shape = SubResource("BoxShape3D_rsa87")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00133014, 0.0254975, -0.0219727)
+shape = SubResource("BoxShape3D_rsa87")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo5a0prgimq0v"]
+
+[ext_resource type="PackedScene" uid="uid://psegfjponqfy" path="res://addons/assets/monitor-bb/scene.gltf" id="1_7kb3d"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tobfk"]
+size = Vector3(5.32825, 3.0957, 1.01111)
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.167226, -0.0197624, -0.0790536)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_7kb3d")]
+transform = Transform3D(4.17371e-07, 0, -35, 0, 35, 0, 35, 0, 4.17371e-07, -0.2, 0.05834, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206007, 1.51911, 0.419128)
+shape = SubResource("BoxShape3D_tobfk")

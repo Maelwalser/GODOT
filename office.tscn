@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch22iifdp4x2a"]
+
+[ext_resource type="PackedScene" uid="uid://bkvi2xfs5pxam" path="res://addons/assets/office/lindenhofpark.glb" id="1_76o55"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="lindenhofpark" parent="." instance=ExtResource("1_76o55")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -303.332, 703.929, 265.106)

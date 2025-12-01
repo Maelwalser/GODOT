@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceq83qhmm45al"]
+
+[ext_resource type="PackedScene" uid="uid://qun4ayf8q6j5" path="res://addons/assets/sofa/sofa.glb" id="1_akxre"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f7qit"]
+size = Vector3(293.057, 82.2974, 109.967)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2obyl"]
+size = Vector3(109.513, 82.3908, 82.3417)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_akxre")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37505, 40.6487, -39.0634)
+shape = SubResource("BoxShape3D_f7qit")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -91.2369, 40.6954, 56.7499)
+shape = SubResource("BoxShape3D_2obyl")

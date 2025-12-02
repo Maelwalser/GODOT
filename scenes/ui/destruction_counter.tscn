@@ -13,13 +13,12 @@ offset_bottom = 95.0
 grow_horizontal = 0
 script = ExtResource("1_ksfos")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_left = -41.0
-offset_top = 11.0
-offset_right = 161.0
+offset_left = -65.0
+offset_top = 13.0
+offset_right = 166.0
 offset_bottom = 112.0
-color = Color(0.21176471, 0.5647059, 1, 1)
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -28,10 +27,10 @@ anchor_left = 0.10700001
 anchor_top = 0.24200001
 anchor_right = 0.10700001
 anchor_bottom = 0.24200001
-offset_left = -47.079002
-offset_top = 27.009998
-offset_right = -7.0790024
-offset_bottom = 62.01
+offset_left = -58.079002
+offset_top = 26.009998
+offset_right = -18.079002
+offset_bottom = 61.01
 theme_override_colors/font_color = Color(0.8901961, 0, 0.25490198, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

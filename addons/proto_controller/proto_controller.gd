@@ -63,9 +63,17 @@ var freeflying : bool = false
 @onready var jump_landing_player: AudioStreamPlayer3D = $JumpLandingPlayer
 @onready var attack_area = $TempAttack
 
+#remove this!!!!
+@onready var game_manager = get_node("/root/GameManager")
+
+#remove this aswell!!!
 func _input(event):
-	if event.is_action_pressed("attack"):
-		attack()
+	if event.is_action_pressed("jump"):
+		game_manager.test_trigger_victory()
+
+#func _input(event):
+	#if event.is_action_pressed("attack"):
+		#attack()
 		
 func attack():
 	for body in attack_area.get_overlapping_bodies():

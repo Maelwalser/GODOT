@@ -15,6 +15,8 @@ var game_won_ui : Control = null
 @export var main_menu_path : String = "res://scenes/ui/main_menu.tscn"
 @export var game_scene_path : String = "res://main.tscn"
 
+
+
 func _ready():
 	# Wait for scene to be ready
 	await get_tree().process_frame
@@ -130,6 +132,11 @@ func go_to_main_menu():
 		game_won_ui = null
 	
 	get_tree().change_scene_to_file(main_menu_path)
+	
+	#remove this, only for testing purposes
+func test_trigger_victory():
+	if current_state == GameState.PLAYING:
+		trigger_victory()
 
 func start_game():
 	print("Starting game from menu...")

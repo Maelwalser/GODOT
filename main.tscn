@@ -69,14 +69,14 @@ point_count = 29
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("2_q5j75")]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.329, 6.30661, -20.7989)
 
-[node name="Haru" type="CharacterBody3D" parent="." groups=["Enemy"]]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 65.82613, 4.905992, -21.29187)
+[node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 43.310184, 4.905992, -1.5710926)
 script = ExtResource("24_0odxb")
+patrol_path = NodePath("../HaruPath")
 
 [node name="Haru" parent="Haru" instance=ExtResource("24_1u8w0")]
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Haru"]
-path_desired_distance = 1.5
 avoidance_enabled = true
 radius = 2.5
 
@@ -358,7 +358,7 @@ patrol_path = NodePath("../MoritzPath")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Moritz"]
 avoidance_enabled = true
-radius = 2.0
+radius = 2.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Moritz"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00793457, 0.35482407, -0.005630493)
@@ -377,5 +377,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.659895, 5.9785705, -6.113
 curve = SubResource("Curve3D_a6jrf")
 
 [node name="HaruPath" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.53912, 6.113654, -5.0959177)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.53912, 5.703068, -5.0959177)
 curve = SubResource("Curve3D_xuqvo")

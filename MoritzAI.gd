@@ -174,7 +174,7 @@ func process_patrol_state(delta):
 	var target = patrol_points[current_patrol_index]
 	agent.target_position = target
 	
-	# Check for Arrival (The Fix)
+	# Check for Arrival
 	if agent.is_navigation_finished():
 		current_patrol_index = (current_patrol_index + 1) % patrol_points.size()
 

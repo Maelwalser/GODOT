@@ -3,12 +3,15 @@ extends Node
 
 signal game_over
 signal game_restarted
+signal game_won
 
-enum GameState { MENU, PLAYING, PAUSED, GAME_OVER }
+enum GameState { MENU, PLAYING, PAUSED, GAME_OVER, VICTORY }
 
 var current_state : GameState = GameState.MENU
 var game_over_ui : CanvasLayer = null
+var game_won_ui : Control = null
 
+@export var win_threshold: int = 20
 @export var main_menu_path : String = "res://scenes/ui/main_menu.tscn"
 @export var game_scene_path : String = "res://main.tscn"
 
@@ -22,6 +25,8 @@ func _ready():
 		current_state = GameState.PLAYING
 		connect_to_enemies()
 		setup_game_over_ui()
+		setup_game_won_ui()
+		DestructionManager.destruction_count_changed.connect(_on_destruction_count_changed)
 
 func connect_to_enemies():
 	var enemies = get_tree().get_nodes_in_group("Enemy")
@@ -42,6 +47,22 @@ func setup_game_over_ui():
 	if ui_scene:
 		game_over_ui = ui_scene.instantiate()
 		get_tree().root.call_deferred("add_child", game_over_ui)
+		
+func setup_game_won_ui():
+	if game_won_ui != null:
+		return
+		
+	var ui_scene = load("res://scenes/ui/victory_screen.tscn")
+	
+	if ui_scene:
+		game_won_ui = ui_scene.instantiate()
+		get_tree().root.call_deferred("add_child", game_won_ui)
+		game_won_ui.hide()
+		
+func _on_destruction_count_changed(count: int):
+	if count >= win_threshold and current_state == GameState.PLAYING:
+		trigger_victory()
+	
 
 func _on_player_caught():
 	print(">>> SIGNAL RECEIVED: player_caught <<<")
@@ -59,6 +80,15 @@ func trigger_game_over():
 		game_over_ui.show_game_over()
 	
 	get_tree().paused = true
+	
+func trigger_victory():
+	current_state = GameState.VICTORY
+	emit_signal("game_won")
+	
+	if game_won_ui:
+		game_won_ui.show_victory()
+		
+	get_tree().paused = true
 
 func restart_game():
 	print("Restarting game...")
@@ -69,7 +99,11 @@ func restart_game():
 	if game_over_ui:
 		game_over_ui.queue_free()
 		game_over_ui = null
+	if game_won_ui:
+		game_won_ui.queue_free()
+		game_won_ui = null
 	
+	DestructionManager.reset_count()
 	emit_signal("game_restarted")
 	
 	# Reload the current scene
@@ -80,6 +114,7 @@ func restart_game():
 	await get_tree().process_frame
 	connect_to_enemies()
 	setup_game_over_ui()
+	setup_game_won_ui()
 
 func go_to_main_menu():
 	print("Returning to main menu...")
@@ -90,6 +125,9 @@ func go_to_main_menu():
 	if game_over_ui:
 		game_over_ui.queue_free()
 		game_over_ui = null
+	if game_won_ui:
+		game_won_ui.queue_free()
+		game_won_ui = null
 	
 	get_tree().change_scene_to_file(main_menu_path)
 
@@ -102,6 +140,7 @@ func start_game():
 	await get_tree().process_frame
 	connect_to_enemies()
 	setup_game_over_ui()
+	setup_game_won_ui()
 
 func pause_game():
 	if current_state == GameState.PLAYING:
@@ -118,3 +157,6 @@ func is_game_over() -> bool:
 
 func is_playing() -> bool:
 	return current_state == GameState.PLAYING
+	
+func is_game_won() -> bool:
+	return current_state == GameState.VICTORY

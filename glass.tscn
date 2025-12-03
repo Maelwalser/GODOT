@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bocgokcdbv8ae"]
+[gd_scene load_steps=5 format=3 uid="uid://c2yv7wgko4llv"]
 
 [ext_resource type="PackedScene" uid="uid://blqg83qk728j5" path="res://destructible_object.tscn" id="1_fvmfx"]
 [ext_resource type="AudioStream" uid="uid://ctptoktojn7h3" path="res://audio/sound_effect/objects_and_interactions/glass-breaking-sound-effect-240679.mp3" id="2_b8qbv"]

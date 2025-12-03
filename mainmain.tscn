@@ -24,7 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://by1cnj58ptphl" path="res://addons/assets/monitor/scene.gltf" id="23_3b0m2"]
 [ext_resource type="PackedScene" uid="uid://dxfls6rbiiuxv" path="res://addons/assets/cup-full/cupfull.glb" id="24_pbp4b"]
 [ext_resource type="PackedScene" uid="uid://bgik14x1d3me" path="res://addons/assets/cup-full/cupfall.glb" id="25_13kir"]
-[ext_resource type="PackedScene" path="res://glass.tscn" id="25_hdneo"]
+[ext_resource type="PackedScene" uid="uid://c2yv7wgko4llv" path="res://glass.tscn" id="25_hdneo"]
 [ext_resource type="PackedScene" path="res://monitor.tscn" id="26_bryhg"]
 
 [node name="Node3D" type="Node3D"]
@@ -296,7 +296,7 @@ transform = Transform3D(0.295968, 0, 0, 0, 0.4, 0, 0, 0, 0.235901, 26.8122, 4.20
 [node name="Destructibles" type="Node3D" parent="."]
 
 [node name="DestructibleObject" parent="Destructibles" instance=ExtResource("25_hdneo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.3622127, 5.8468914, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6684313, 5.8468914, -4.0962143)
 
 [node name="DestructibleObject2" parent="Destructibles" instance=ExtResource("26_bryhg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.653173, 5.768809, 2.708866)

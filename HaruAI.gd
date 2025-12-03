@@ -11,8 +11,6 @@ signal player_caught
 @export var chase_update_interval : float = 0.2
 @export var attack_distance : float = 2.0
 
-
-
 var is_running : bool = false
 var is_stopped : bool = true
 var look_at_player : bool = false
@@ -45,10 +43,10 @@ func _ready():
 		create_vision_visual_from_collision()
 		
 	if agent:
-		agent.path_desired_distance = 1.5
+		agent.path_desired_distance = 1.0
 		agent.target_desired_distance = attack_distance
 		agent.path_max_distance = 1.0
-		agent.radius = 2.0
+		agent.radius = 3.0
 		
 		agent.avoidance_enabled = true
 		agent.max_speed = run_speed

@@ -45,10 +45,10 @@ func _ready():
 		create_vision_visual_from_collision()
 		
 	if agent:
-		agent.path_desired_distance = 1.5
+		agent.path_desired_distance = 1.0
 		agent.target_desired_distance = attack_distance
 		agent.path_max_distance = 1.0
-		agent.radius = 2.0
+		agent.radius = 3.0
 		
 		agent.avoidance_enabled = true
 		agent.max_speed = run_speed
@@ -189,7 +189,6 @@ func _physics_process(delta):
 		var look_direction = (look_target - global_position).normalized()
 		look_direction.y = 0
 		if look_direction.length() > 0:
-			# Maintained your inverted atan2 logic
 			var target_rot = atan2(-look_direction.x, -look_direction.z)
 			rotation.y = lerp_angle(rotation.y, target_rot, rotation_speed * delta)
 			

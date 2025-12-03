@@ -4,13 +4,14 @@ extends CharacterBody3D
 signal player_caught
 
 @export_group("Movement")
-@export var walk_speed : float = 3.0
+@export var walk_speed : float = 3.5
 @export var run_speed : float = 6.0
 @export var rotation_speed : float = 5.0
+@export var jump_height : float = 2.5 
 
 @export_group("Vision")
-@export var vision_range : float = 12.0
-@export var vision_angle : float = 45.0
+@export var vision_range : float = 13.0
+@export var vision_angle : float = 70.0
 @export var show_vision_area : bool = true
 
 @export var vision_color_chase : Color = Color(1.0, 0.5, 0.0, 0.4) 
@@ -21,6 +22,7 @@ signal player_caught
 @export var lose_player_delay : float = 5.0
 @export var chase_update_interval : float = 0.2
 @export var attack_distance : float = 2.0
+@export var attack_vertical_range : float = 3.0
 @export var patrol_point_reached_range : float = 1.0
 
 
@@ -62,7 +64,7 @@ func _ready():
 		agent.path_desired_distance = 1.0
 		agent.target_desired_distance = attack_distance
 		agent.path_max_distance = 1.0
-		agent.radius = 2.0 
+		agent.radius = 3.0 
 		agent.avoidance_enabled = true
 		agent.max_speed = run_speed
 		agent.velocity_computed.connect(_on_velocity_computed)
@@ -113,9 +115,13 @@ func process_chase_state(delta):
 	last_known_player_position = player.global_position
 	
 	# Attack Logic
-	if player_distance <= attack_distance:
+	var horizontal_dist = Vector2(global_position.x, global_position.z).distance_to(Vector2(player.global_position.x, player.global_position.z))
+	var vertical_dist = abs(global_position.y - player.global_position.y)
+	
+	# If close enough horizontally AND within vertical tolerance
+	if horizontal_dist <= attack_distance and vertical_dist <= attack_vertical_range:
 		emit_signal("player_caught")
-		agent.target_position = global_position # Stop
+		agent.target_position = global_position 
 		return
 
 	# Path Update
@@ -189,6 +195,12 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
+	
+	if is_on_floor() and is_on_wall() and current_state == State.CHASE:
+		if player and player.global_position.y > global_position.y + 0.5:
+			# Simple calculation for velocity needed to reach jump_height: v = sqrt(2 * g * h)
+			velocity.y = sqrt(2 * gravity * jump_height)
+	
 	# Stop if we reached destination and aren't patrolling
 	if agent.is_navigation_finished() and current_state != State.PATROL:
 		velocity.x = move_toward(velocity.x, 0, run_speed * delta)
@@ -210,7 +222,6 @@ func _physics_process(delta):
 
 func handle_rotation(delta):
 
-	
 	if current_state == State.CHASE and player:
 		look_at_smoothly(player.global_position, delta)
 	

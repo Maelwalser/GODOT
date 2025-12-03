@@ -19,6 +19,11 @@ var time_since_lost_sight : float = 0.0
 var player_was_in_cone : bool = false
 var time_since_path_update : float = 0.0
 
+var patrol_points : PackedVector3Array
+var current_patrol_index : int = 0
+var is_waiting_at_patrol_point : bool = false
+var patrol_timer : float = 0.0
+
 @onready var anim_player : AnimationPlayer = $Haru/AnimationPlayer
 @onready var agent : NavigationAgent3D = get_node("NavigationAgent3D")
 @onready var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -56,6 +61,7 @@ func _ready():
 		
 		await get_tree().process_frame
 		print("Navigation agent ready. Debug enabled: ", agent.debug_enabled)
+		
 
 func _process(delta):
 	if player != null:

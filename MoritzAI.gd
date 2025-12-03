@@ -2,45 +2,54 @@ class_name AIControllerMoritz
 extends CharacterBody3D
 signal player_caught
 
+@export_group("Movement")
 @export var walk_speed : float = 3.0
 @export var run_speed : float = 6.0
 @export var rotation_speed : float = 5.0
-@export var vision_range : float = 10.0
+
+@export_group("Vision")
+@export var vision_range : float = 12.0
 @export var vision_angle : float = 45.0
+@export var show_vision_area : bool = true
+@export var vision_color_chase : Color = Color(1.0, 1.0, 0.0, 0.4)
+@export var vision_color_patrol : Color = Color(1.0, 0.0, 0.0, 0.4)
+
+@export_group("AI Parameters")
+@export var patrol_path : Path3D
 @export var lose_player_delay : float = 5.0
 @export var chase_update_interval : float = 0.2
 @export var attack_distance : float = 2.0
+@export var patrol_point_reached_range : float = 1.0
 
 
+enum State {PATROL, SEARCH, CHASE}
+var current_state : State = State.PATROL
 
-var is_running : bool = false
-var is_stopped : bool = true
-var look_at_player : bool = false
-var player_in_range : bool = false
+var patrol_points : PackedVector3Array
+var current_patrol_index : int = 0
+
+
 var time_since_lost_sight : float = 0.0
-var player_was_in_cone : bool = false
 var time_since_path_update : float = 0.0
+var player_distance : float
+var last_known_player_position : Vector3
 
+
+# Nodes
 @onready var anim_player : AnimationPlayer = $Moritz/AnimationPlayer
 @onready var agent : NavigationAgent3D = get_node("NavigationAgent3D")
 @onready var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var player = get_tree().get_nodes_in_group("Player")[0] if get_tree().get_nodes_in_group("Player").size() > 0 else null
 @onready var vision_area : Area3D = $Area3D
-
-@export var show_vision_area : bool = true
-@export var vision_color : Color = Color(1.0, 0.0, 0.0, 0.4)
 @onready var vision_collision : CollisionShape3D = $Area3D/CollisionShape3D
 @onready var vision_visual : MeshInstance3D
 
-var player_distance : float
-var last_known_player_position : Vector3
-var is_chasing : bool = false
+
 
 func _ready():
 	if vision_area:
 		vision_area.body_entered.connect(_on_body_entered)
 		vision_area.body_exited.connect(_on_body_exited)
-		
 	if show_vision_area and vision_collision:
 		create_vision_visual_from_collision()
 		
@@ -49,152 +58,140 @@ func _ready():
 		agent.target_desired_distance = attack_distance
 		agent.path_max_distance = 1.0
 		agent.radius = 3.0
-		
 		agent.avoidance_enabled = true
 		agent.max_speed = run_speed
 		agent.velocity_computed.connect(_on_velocity_computed)
 		agent.debug_enabled = true
-		agent.navigation_finished.connect(_on_navigation_finished)
 		
-		await get_tree().process_frame
 		print("Navigation agent ready. Debug enabled: ", agent.debug_enabled)
+		
+	if patrol_path:
+		var curve = patrol_path.curve
+		for i in range(curve.point_count):
+			patrol_points.append(patrol_path.to_global(curve.get_point_position(i)))
+	else:
+		print("Warning: No Patrol Path assigned to Moritz!")
 
 func _process(delta):
-	if player != null:
+	if player:
 		player_distance = global_position.distance_to(player.global_position)
-		
-		if player_in_range:
-			if not player_was_in_cone:
-				if is_player_in_vision_cone():
-					player_was_in_cone = true
-					is_chasing = true
-					time_since_lost_sight = 0.0
-					update_vision_color(true)
-					print("Enemy spotted player! Starting chase!")
-			
-			if player_was_in_cone:
-				look_at_player = true
-				is_running = true
-				is_stopped = false
-				is_chasing = true
-				last_known_player_position = player.global_position
-				
-				time_since_path_update += delta
-				if time_since_path_update >= chase_update_interval:
-					update_chase_path()
-					time_since_path_update = 0.0
-					
-				time_since_lost_sight = 0.0
-		else:
-			if player_was_in_cone:
-				time_since_lost_sight += delta
-				if time_since_lost_sight < lose_player_delay:
-					look_at_player = true
-					is_running = true
-					is_stopped = false
-					is_chasing = true
-				else:
-					stop_chasing()
-			else:
-				if is_chasing:
-					stop_chasing()
+	
+	match current_state:
+		State.CHASE:
+			process_chase_state(delta)
+		State.SEARCH:
+			process_search_state(delta)
+		State.PATROL:
+			process_patrol_state(delta)
 
-func update_chase_path():
-	if player == null:
+	update_vision_visual()
+
+# --- STATE LOGIC ---
+
+func process_chase_state(delta):
+	# If we lose visibility, switch to SEARCH (Grace period)
+	if not is_player_in_vision_cone():
+		print("Lost sight! Switching to Search Mode.")
+		last_known_player_position = player.global_position
+		agent.target_position = last_known_player_position
+		current_state = State.SEARCH
+		time_since_lost_sight = 0.0
 		return
-		
-	# Check distance (using the global calculation)
+
+	last_known_player_position = player.global_position
+	
+	# Attack Logic
 	if player_distance <= attack_distance:
-		print("In attack range!")
 		emit_signal("player_caught")
-		is_stopped = true
-		is_chasing = false
+		agent.target_position = global_position # Stop moving
 		return
-	is_stopped = false
 
-	agent.target_position = player.global_position
+	# Path Update Throttling
+	time_since_path_update += delta
+	if time_since_path_update >= chase_update_interval:
+		agent.target_position = player.global_position
+		time_since_path_update = 0.0
 
-func stop_chasing():
-	look_at_player = false
-	is_running = false
-	is_stopped = true
-	is_chasing = false
-	player_was_in_cone = false
-	time_since_lost_sight = 0.0
-	update_vision_color(false)
+func process_search_state(delta):
+	# If we see player again, go back to CHASE
+	if is_player_in_vision_cone():
+		print("Found player again! Resuming Chase.")
+		current_state = State.CHASE
+		return
+
+	# Go to last known position
+	agent.target_position = last_known_player_position
+	
+	# Check Grace Timer
+	time_since_lost_sight += delta
+	if time_since_lost_sight >= lose_player_delay:
+		print("Given up search. Returning to Patrol.")
+		current_state = State.PATROL
+		find_closest_patrol_point() # Optimization: Start patrol from nearest point
+
+func process_patrol_state(delta):
+	# 1. Vision Check
+	if is_player_in_vision_cone():
+		print("Spotted player! Starting Chase.")
+		current_state = State.CHASE
+		return
+		
+	if patrol_points.is_empty():
+		return 
+		
+	# 2. Set Target
+	var target = patrol_points[current_patrol_index]
+	agent.target_position = target
+	
+	# 3. Check for Arrival (The Fix)
+	# We rely on the agent.is_navigation_finished() which respects the 'target_desired_distance'
+	if agent.is_navigation_finished():
+		current_patrol_index = (current_patrol_index + 1) % patrol_points.size()
+		# Optional: Add a small pause here if you want the enemy to look around before moving to the next point
+# --- MOVEMENT LOGIC ---
 
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	else:
-		velocity.y = 0
 	
-	# MOVEMENT LOGIC
-	if is_chasing and not is_stopped and agent and player:
-		if agent.is_navigation_finished():
-			# Slow down to a stop if finished
-			var current_vel = velocity
-			current_vel.x = move_toward(current_vel.x, 0, run_speed * delta)
-			current_vel.z = move_toward(current_vel.z, 0, run_speed * delta)
-			if agent.avoidance_enabled:
-				agent.set_velocity(current_vel)
-			else:
-				_on_velocity_computed(current_vel)
-		else:
-			var next_path_position = agent.get_next_path_position()
-			var direction = global_position.direction_to(next_path_position)
-			
-			var current_speed = run_speed if is_running else walk_speed
-			var intended_velocity = direction * current_speed
-			
-			# SEND VELOCITY TO AGENT FOR AVOIDANCE CALCULATION
-			if agent.avoidance_enabled:
-				agent.set_velocity(intended_velocity)
-			else:
-				_on_velocity_computed(intended_velocity)
-		
+	# If we are close enough to the final target (and not patrolling), stop
+	if agent.is_navigation_finished() and current_state != State.PATROL:
+		velocity.x = move_toward(velocity.x, 0, run_speed * delta)
+		velocity.z = move_toward(velocity.z, 0, run_speed * delta)
 	else:
-		# Not chasing - Decelerate
-		var current_vel = velocity
-		current_vel.x = move_toward(current_vel.x, 0, run_speed * delta)
-		current_vel.z = move_toward(current_vel.z, 0, run_speed * delta)
-		# Still update agent so it knows we are stopping (helps other agents avoid us)
+		# Standard Navigation Movement
+		var next_path_position = agent.get_next_path_position()
+		var direction = global_position.direction_to(next_path_position)
+		
+		# Determine speed based on state
+		var speed = walk_speed if current_state == State.PATROL else run_speed
+		var intended_velocity = direction * speed
+		
 		if agent.avoidance_enabled:
-			agent.set_velocity(current_vel)
+			agent.set_velocity(intended_velocity)
 		else:
-			_on_velocity_computed(current_vel)
-			
-			
-	if anim_player:
-		var horizontal_speed = Vector3(velocity.x, 0, velocity.z).length()
-	
-		var walk_anim_name = "walk" 
+			_on_velocity_computed(intended_velocity)
 
-		if horizontal_speed > 0.1:
-			if anim_player.current_animation != walk_anim_name:
-				anim_player.play(walk_anim_name, 0.2)
-		else:
-			if anim_player.is_playing():
-				anim_player.stop()
-	
-# 	ROTATION LOGIC
-	if look_at_player and player != null:
-		# Prioritize looking at player when very close
-		var look_target = player.global_position
-		
-		# If chasing but far away, look at the path node to avoid "strafing" into walls
-		if is_chasing and player_distance > attack_distance * 1.5:
-			look_target = agent.get_next_path_position()
-			
-		var look_direction = (look_target - global_position).normalized()
-		look_direction.y = 0
-		if look_direction.length() > 0:
-			var target_rot = atan2(-look_direction.x, -look_direction.z)
-			rotation.y = lerp_angle(rotation.y, target_rot, rotation_speed * delta)
-			
+	# Animation Handling
+	handle_animation()
+	handle_rotation(delta)
+
+func handle_rotation(delta):
+	# If Chasing or Searching, look at interesting things
+	if current_state == State.CHASE and player:
+		look_at_smoothly(player.global_position, delta)
+	elif current_state == State.SEARCH:
+		look_at_smoothly(last_known_player_position, delta)
+	# If Patrolling or Moving, look where we are going
 	elif velocity.length_squared() > 0.1:
-		# Look in direction of movement
 		var target_rot = atan2(-velocity.x, -velocity.z)
+		rotation.y = lerp_angle(rotation.y, target_rot, rotation_speed * delta)
+
+func look_at_smoothly(target_pos: Vector3, delta: float):
+	var direction = (target_pos - global_position).normalized()
+	direction.y = 0
+	if direction.length() > 0:
+		var target_rot = atan2(-direction.x, -direction.z)
 		rotation.y = lerp_angle(rotation.y, target_rot, rotation_speed * delta)
 
 func _on_velocity_computed(safe_velocity: Vector3):
@@ -202,62 +199,111 @@ func _on_velocity_computed(safe_velocity: Vector3):
 	velocity.z = safe_velocity.z
 	move_and_slide()
 
+func handle_animation():
+	if not anim_player: return
+	
+	var horizontal_speed = Vector3(velocity.x, 0, velocity.z).length()
+	var walk_anim_name = "walk" 
+	
+	if horizontal_speed > 0.1:
+		if anim_player.current_animation != walk_anim_name:
+			# Speed up animation if running
+			var anim_speed = 1.0 if current_state == State.PATROL else 1.5
+			anim_player.play(walk_anim_name, 0.2, anim_speed)
+	else:
+		if anim_player.is_playing() and anim_player.current_animation == walk_anim_name:
+			anim_player.stop()
 
-func _on_navigation_finished():
-	if is_chasing and player_was_in_cone and player:
-		agent.target_position = player.global_position 
+# --- UTILITY ---
 
 func is_player_in_vision_cone() -> bool:
-	if player == null:
-		return false
-
-	var direction_to_player = (player.global_position - global_position).normalized()
-	direction_to_player.y = 0
-	direction_to_player = direction_to_player.normalized()
+	if not player: return false
 	
+	# 1. Check Distance
+	if player_distance > vision_range:
+		return false
+		
+	# 2. Check Angle
+	var direction_to_player = (player.global_position - global_position).normalized()
+	direction_to_player.y = 0 # Flatten to horizontal plane
 	var forward = -transform.basis.z 
 	forward.y = 0
-	forward = forward.normalized()
 	
-	var dot_product = forward.dot(direction_to_player)
-	var angle = rad_to_deg(acos(clamp(dot_product, -1.0, 1.0)))
+	var angle = rad_to_deg(forward.angle_to(direction_to_player))
 	
-	return angle <= vision_angle and player_distance <= vision_range
+	if angle > vision_angle:
+		return false
+		
+	# 3. Check Raycast (Obstacles)
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsRayQueryParameters3D.create(global_position + Vector3(0, 1, 0), player.global_position + Vector3(0, 1, 0))
+	query.exclude = [self] # Don't detect self
+	var result = space_state.intersect_ray(query)
+	
+	if result and result.collider == player:
+		return true
+		
+	return false
 
-func _on_body_entered(body):
-	if body.is_in_group("Player"):
-		player_in_range = true
-		print("Player entered vision area")
+# Finds the closest point on the path so we don't walk all the way back to the start
+func find_closest_patrol_point():
+	if patrol_points.is_empty(): return
+	
+	var closest_dist = INF
+	var closest_index = 0
+	
+	for i in range(patrol_points.size()):
+		var d = global_position.distance_to(patrol_points[i])
+		if d < closest_dist:
+			closest_dist = d
+			closest_index = i
+			
+	current_patrol_index = closest_index
 
-func _on_body_exited(body):
-	if body.is_in_group("Player"):
-		player_in_range = false
-		print("Player exited vision area")
+# --- VISUAL DEBUG ---
 
+func update_vision_visual():
+	if not vision_visual or not vision_visual.material_override: return
+	
+	if current_state == State.CHASE:
+		vision_visual.material_override.albedo_color = vision_color_chase # Yellow/Red
+	elif current_state == State.SEARCH:
+		vision_visual.material_override.albedo_color = Color(1.0, 0.5, 0.0, 0.2) # Orange
+	else:
+		vision_visual.material_override.albedo_color = vision_color_patrol # Red/Green
+
+# Copied from your original script for setup
 func create_vision_visual_from_collision():
 	vision_visual = MeshInstance3D.new()
 	vision_collision.add_child(vision_visual)
 	var shape = vision_collision.shape
+	# (Your previous mesh generation code implies correct shape handling)
+	# For brevity, using a generic cylinder if standard specific ones fail, 
+	# but strictly keeping your logic is fine. 
+	# Assuming your original logic works here.
+	var cylinder_mesh = CylinderMesh.new()
+	cylinder_mesh.top_radius = vision_range * tan(deg_to_rad(vision_angle)) # Approx visualization
+	cylinder_mesh.bottom_radius = 0.1
+	cylinder_mesh.height = vision_range
+	# Rotate mesh to match cone direction if needed, or use your existing generation code.
+	# For safety, I'll paste YOUR exact generator below:
+	
 	if shape is SphereShape3D:
 		var sphere_mesh = SphereMesh.new(); sphere_mesh.radius = shape.radius; sphere_mesh.height = shape.radius * 2; vision_visual.mesh = sphere_mesh
 	elif shape is BoxShape3D:
 		var box_mesh = BoxMesh.new(); box_mesh.size = shape.size; vision_visual.mesh = box_mesh
-	elif shape is CylinderShape3D:
-		var cylinder_mesh = CylinderMesh.new(); cylinder_mesh.height = shape.height; cylinder_mesh.top_radius = shape.radius; cylinder_mesh.bottom_radius = shape.radius; vision_visual.mesh = cylinder_mesh
+	elif shape is CylinderShape3D: # Cone approximations usually used here
+		var cyl = CylinderMesh.new(); cyl.height = shape.height; cyl.top_radius = shape.radius; cyl.bottom_radius = shape.radius; vision_visual.mesh = cyl
 	elif shape is CapsuleShape3D:
-		var capsule_mesh = CapsuleMesh.new(); capsule_mesh.radius = shape.radius; capsule_mesh.height = shape.height; vision_visual.mesh = capsule_mesh
-	
+		var cap = CapsuleMesh.new(); cap.radius = shape.radius; cap.height = shape.height; vision_visual.mesh = cap
+
 	var material = StandardMaterial3D.new()
-	material.albedo_color = vision_color
+	material.albedo_color = vision_color_patrol
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.no_depth_test = false
 	vision_visual.material_override = material
-
-func update_vision_color(tracking: bool):
-	if vision_visual and vision_visual.material_override:
-		if tracking:
-			vision_visual.material_override.albedo_color = Color(1.0, 1.0, 0.0, 0.1)
-		else:
-			vision_visual.material_override.albedo_color = Color(1.0, 0.0, 0.0, 0.1)
+	
+# Empty signals required for Area3D connection
+func _on_body_entered(body): pass 
+func _on_body_exited(body): pass

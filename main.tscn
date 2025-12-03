@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dsotllufni8ku"]
+[gd_scene load_steps=34 format=3 uid="uid://dsotllufni8ku"]
 
 [ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
@@ -47,6 +47,14 @@ height = 0.7762222
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a6jrf"]
 radius = 0.55908203
 height = 2.7158203
+
+[sub_resource type="Curve3D" id="Curve3D_a6jrf"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.4680271, 0, 0, 0, 0, 0, 0, 0, 0, 10.010876, 0, 0.831357, 0, 0, 0, 0, 0, 0, 10.921892, 0, 3.3575885, 0, 0, 0, 0, 0, 0, 12.941933, 0, -1.2087951, 0, 0, 0, 0, 0, 0, 13.118379, 0, -15.534169, 0, 0, 0, 0, 0, 0, 20, 0, -18.881138, 0, 0, 0, 0, 0, 0, 33.350536, 0, -15.538663, 0, 0, 0, 0, 0, 0, 35.72613, 0, -17.425724, 0, 0, 0, 0, 0, 0, 35.776, 0, -1.5281801, 0, 0, 0, 0, 0, 0, 33.951096, 0, 0, 0, 0, 0, 0, 0, 0, 31.962929, 0, 2.3043678, 0, 0, 0, 0, 0, 0, 25.14495, 0, -1.6706796, 0, 0, 0, 0, 0, 0, 21.53983, 0, 1.3572898, 0, 0, 0, 0, 0, 0, 14.94338, 0, -0.75554323, 0, 0, 0, 0, 0, 0, -3.141798, 0, -2.1081018, 0, 0, 0, 0, 0, 0, -2.7789383, 0, -15.411708, 0, 0, 0, 0, 0, 0, -7.5320244, 0, -16.003609, 0, 0, 0, 0, 0, 0, 12.72966, 0, -15.750295, 0, 0, 0, 0, 0, 0, 14.03287, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 19
 
 [node name="main" type="Node3D"]
 
@@ -333,9 +341,10 @@ transform = Transform3D(0.475282, 0, 0, 0, 0.267444, 0, 0, 0, 0.469169, -5.19796
 [node name="Sketchfab_Scene" parent="NavigationRegion3D" instance=ExtResource("23_3b0m2")]
 transform = Transform3D(27.9927, 0, -25.4687, 0, 37.845, 0, 25.4687, 0, 27.9927, -8.8065, 6.17265, -29.7347)
 
-[node name="Moritz" type="CharacterBody3D" parent="." groups=["Enemy"]]
+[node name="Moritz" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.431693, 5.089832, -6.180725)
 script = ExtResource("26_a6jrf")
+patrol_path = NodePath("../MoritzPath")
 
 [node name="Moritz" parent="Moritz" instance=ExtResource("4_lswn8")]
 
@@ -354,3 +363,7 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Moritz/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.3711392e-08, -1, 0, 1, -4.3711392e-08, 0, 0.49202383, -1.4333228)
 shape = SubResource("CapsuleShape3D_a6jrf")
+
+[node name="MoritzPath" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.659895, 5.9785705, -6.1139364)
+curve = SubResource("Curve3D_a6jrf")

@@ -34,6 +34,8 @@ var time_since_path_update : float = 0.0
 var player_distance : float
 var last_known_player_position : Vector3
 
+var last_known_player_velocity : Vector3 = Vector3.ZERO
+var search_path_extended : bool = false
 
 # Nodes
 @onready var anim_player : AnimationPlayer = $Moritz/AnimationPlayer
@@ -86,16 +88,18 @@ func _process(delta):
 
 	update_vision_visual()
 
-# --- STATE LOGIC ---
+# STATE LOGIC
 
 func process_chase_state(delta):
 	# If we lose visibility, switch to SEARCH (Grace period)
 	if not is_player_in_vision_cone():
 		print("Lost sight! Switching to Search Mode.")
 		last_known_player_position = player.global_position
+		last_known_player_velocity = player.velocity
 		agent.target_position = last_known_player_position
 		current_state = State.SEARCH
 		time_since_lost_sight = 0.0
+		search_path_extended = false
 		return
 
 	last_known_player_position = player.global_position
@@ -118,19 +122,46 @@ func process_search_state(delta):
 		print("Found player again! Resuming Chase.")
 		current_state = State.CHASE
 		return
-
-	# Go to last known position
-	agent.target_position = last_known_player_position
-	
-	# Check Grace Timer
+		
 	time_since_lost_sight += delta
-	if time_since_lost_sight >= lose_player_delay:
-		print("Given up search. Returning to Patrol.")
-		current_state = State.PATROL
-		find_closest_patrol_point() # Optimization: Start patrol from nearest point
+	
+	if agent.is_navigation_finished():
+		
+		# If we haven't extended the path yet, and we still have time left
+		if not search_path_extended and time_since_lost_sight < lose_player_delay:
+			predict_and_extend_path()
+		
+		# If we HAVE extended (or time is up), and we finished that path too -> Patrol
+		elif time_since_lost_sight >= lose_player_delay:
+			print("Given up search. Returning to Patrol.")
+			current_state = State.PATROL
+			find_closest_patrol_point()
+	
+func predict_and_extend_path():
+	print("Reached last known spot. Predicting player movement...")
+	search_path_extended = true
+	
+	# Calculate how much time is left in the search
+	var time_left = lose_player_delay - time_since_lost_sight
+	
+	# Get Direction
+	var search_dir = last_known_player_velocity.normalized()
+	if search_dir.length_squared() < 0.1:
+		search_dir = (last_known_player_position - global_position).normalized()
+	
+	# Calculate new point
+	var extra_distance = run_speed * time_left
+	var predicted_pos = last_known_player_position + (search_dir * extra_distance)
+	
+	# Snap to Navigation Mesh
+	var map = get_world_3d().navigation_map
+	var safe_pos = NavigationServer3D.map_get_closest_point(map, predicted_pos)
+	
+	# Set new target
+	agent.target_position = safe_pos
 
 func process_patrol_state(delta):
-	# 1. Vision Check
+	# Vision Check
 	if is_player_in_vision_cone():
 		print("Spotted player! Starting Chase.")
 		current_state = State.CHASE
@@ -139,17 +170,16 @@ func process_patrol_state(delta):
 	if patrol_points.is_empty():
 		return 
 		
-	# 2. Set Target
+	# Set Target
 	var target = patrol_points[current_patrol_index]
 	agent.target_position = target
 	
-	# 3. Check for Arrival (The Fix)
-	# We rely on the agent.is_navigation_finished() which respects the 'target_desired_distance'
+	# Check for Arrival (The Fix)
 	if agent.is_navigation_finished():
 		current_patrol_index = (current_patrol_index + 1) % patrol_points.size()
-		# Optional: Add a small pause here if you want the enemy to look around before moving to the next point
-# --- MOVEMENT LOGIC ---
 
+
+# MOVEMENT LOGIC
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -180,12 +210,13 @@ func handle_rotation(delta):
 	# If Chasing or Searching, look at interesting things
 	if current_state == State.CHASE and player:
 		look_at_smoothly(player.global_position, delta)
-	elif current_state == State.SEARCH:
-		look_at_smoothly(last_known_player_position, delta)
-	# If Patrolling or Moving, look where we are going
-	elif velocity.length_squared() > 0.1:
+	
+	if velocity.length_squared() > 0.1:
 		var target_rot = atan2(-velocity.x, -velocity.z)
 		rotation.y = lerp_angle(rotation.y, target_rot, rotation_speed * delta)
+	
+	elif current_state == State.SEARCH:
+		look_at_smoothly(agent.target_position, delta)
 
 func look_at_smoothly(target_pos: Vector3, delta: float):
 	var direction = (target_pos - global_position).normalized()
@@ -214,16 +245,16 @@ func handle_animation():
 		if anim_player.is_playing() and anim_player.current_animation == walk_anim_name:
 			anim_player.stop()
 
-# --- UTILITY ---
+# UTILITY
 
 func is_player_in_vision_cone() -> bool:
 	if not player: return false
 	
-	# 1. Check Distance
+	# Check Distance
 	if player_distance > vision_range:
 		return false
 		
-	# 2. Check Angle
+	# Check Angle
 	var direction_to_player = (player.global_position - global_position).normalized()
 	direction_to_player.y = 0 # Flatten to horizontal plane
 	var forward = -transform.basis.z 
@@ -234,7 +265,7 @@ func is_player_in_vision_cone() -> bool:
 	if angle > vision_angle:
 		return false
 		
-	# 3. Check Raycast (Obstacles)
+	# Check Raycast (Obstacles)
 	var space_state = get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.create(global_position + Vector3(0, 1, 0), player.global_position + Vector3(0, 1, 0))
 	query.exclude = [self] # Don't detect self
@@ -260,7 +291,7 @@ func find_closest_patrol_point():
 			
 	current_patrol_index = closest_index
 
-# --- VISUAL DEBUG ---
+# VISUAL DEBUG
 
 func update_vision_visual():
 	if not vision_visual or not vision_visual.material_override: return
@@ -272,21 +303,15 @@ func update_vision_visual():
 	else:
 		vision_visual.material_override.albedo_color = vision_color_patrol # Red/Green
 
-# Copied from your original script for setup
+
 func create_vision_visual_from_collision():
 	vision_visual = MeshInstance3D.new()
 	vision_collision.add_child(vision_visual)
 	var shape = vision_collision.shape
-	# (Your previous mesh generation code implies correct shape handling)
-	# For brevity, using a generic cylinder if standard specific ones fail, 
-	# but strictly keeping your logic is fine. 
-	# Assuming your original logic works here.
 	var cylinder_mesh = CylinderMesh.new()
 	cylinder_mesh.top_radius = vision_range * tan(deg_to_rad(vision_angle)) # Approx visualization
 	cylinder_mesh.bottom_radius = 0.1
 	cylinder_mesh.height = vision_range
-	# Rotate mesh to match cone direction if needed, or use your existing generation code.
-	# For safety, I'll paste YOUR exact generator below:
 	
 	if shape is SphereShape3D:
 		var sphere_mesh = SphereMesh.new(); sphere_mesh.radius = shape.radius; sphere_mesh.height = shape.radius * 2; vision_visual.mesh = sphere_mesh

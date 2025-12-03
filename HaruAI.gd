@@ -4,14 +4,14 @@ extends CharacterBody3D
 signal player_caught
 
 @export_group("Movement")
-@export var walk_speed : float = 3.0
+@export var walk_speed : float = 3.5
 @export var run_speed : float = 6.0
 @export var rotation_speed : float = 5.0
 @export var jump_height : float = 2.5 
 
 @export_group("Vision")
 @export var vision_range : float = 13.0
-@export var vision_angle : float = 45.0
+@export var vision_angle : float = 70.0
 @export var show_vision_area : bool = true
 
 @export var vision_color_chase : Color = Color(1.0, 0.5, 0.0, 0.4) 
@@ -64,7 +64,7 @@ func _ready():
 		agent.path_desired_distance = 1.0
 		agent.target_desired_distance = attack_distance
 		agent.path_max_distance = 1.0
-		agent.radius = 2.0 
+		agent.radius = 3.0 
 		agent.avoidance_enabled = true
 		agent.max_speed = run_speed
 		agent.velocity_computed.connect(_on_velocity_computed)

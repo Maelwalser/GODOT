@@ -1,6 +1,6 @@
-[gd_scene load_steps=35 format=3 uid="uid://dsotllufni8ku"]
+[gd_scene load_steps=35 format=3 uid="uid://xcu7i15vs647"]
 
-[ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
+[ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://07ryv4xc1gak" path="res://nodes/island-workplace.tscn" id="3_s0ldu"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
@@ -66,7 +66,7 @@ point_count = 29
 
 [node name="main" type="Node3D"]
 
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("2_q5j75")]
+[node name="Player" parent="." instance=ExtResource("2_q5j75")]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.329, 6.30661, -20.7989)
 
 [node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]

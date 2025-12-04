@@ -67,9 +67,9 @@ var freeflying : bool = false
 
 
 
-#func _input(event):
-	#if event.is_action_pressed("attack"):
-		#attack()
+func _input(event):
+	if event.is_action_pressed("attack"):
+		attack()
 		
 func attack():
 	for body in attack_area.get_overlapping_bodies():

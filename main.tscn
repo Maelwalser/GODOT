@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=38 format=3 uid="uid://xcu7i15vs647"]
 
 [ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
@@ -27,6 +27,9 @@
 [ext_resource type="Script" uid="uid://dbjqd470eqn2r" path="res://HaruAI.gd" id="24_0odxb"]
 [ext_resource type="PackedScene" uid="uid://04gflyixycq4" path="res://addons/characters/haru/Haru.glb" id="24_1u8w0"]
 [ext_resource type="Script" uid="uid://bejm03qx5154w" path="res://MoritzAI.gd" id="26_a6jrf"]
+[ext_resource type="PackedScene" uid="uid://bh2yhlp1aoa3g" path="res://monitor.tscn" id="26_xuqvo"]
+[ext_resource type="PackedScene" uid="uid://c2yv7wgko4llv" path="res://glass.tscn" id="27_kq58d"]
+[ext_resource type="PackedScene" path="res://coffe_mug.tscn" id="28_seu75"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
 radius = 0.12695313
@@ -348,6 +351,17 @@ transform = Transform3D(0.475282, 0, 0, 0, 0.267444, 0, 0, 0, 0.469169, -5.19796
 
 [node name="Sketchfab_Scene" parent="NavigationRegion3D" instance=ExtResource("23_3b0m2")]
 transform = Transform3D(27.9927, 0, -25.4687, 0, 37.845, 0, 25.4687, 0, 27.9927, -8.8065, 6.17265, -29.7347)
+
+[node name="Destructibles" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="DestructibleObject" parent="NavigationRegion3D/Destructibles" instance=ExtResource("26_xuqvo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.63873, 4.1185184, -22.267143)
+
+[node name="DestructibleObject2" parent="NavigationRegion3D/Destructibles" instance=ExtResource("27_kq58d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.01459, 4.261977, -20.692036)
+
+[node name="DestructibleObject3" parent="NavigationRegion3D/Destructibles" instance=ExtResource("28_seu75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.40701, 4.48821, -21.461538)
 
 [node name="Moritz" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.431693, 5.089832, -6.180725)

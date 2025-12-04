@@ -43,7 +43,6 @@ func connect_to_enemies():
 				print("Connected to enemy signal: ", enemy.name)
 
 func setup_game_over_ui():
-	# Don't create duplicate UI
 	if game_over_ui != null:
 		return
 		
@@ -136,11 +135,6 @@ func go_to_main_menu():
 	
 	get_tree().change_scene_to_file(main_menu_path)
 	
-	#remove this, only for testing purposes
-func test_trigger_victory():
-	if current_state == GameState.PLAYING:
-		trigger_victory()
-
 func start_game():
 	print("Starting game from menu...")
 	current_state = GameState.PLAYING

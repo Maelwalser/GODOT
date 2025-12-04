@@ -11,7 +11,9 @@ var current_state : GameState = GameState.MENU
 var game_over_ui : CanvasLayer = null
 var game_won_ui : Control = null
 
+
 @export var win_threshold: int = 20
+
 @export var main_menu_path : String = "res://scenes/ui/main_menu.tscn"
 @export var game_scene_path : String = "res://main.tscn"
 

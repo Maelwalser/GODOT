@@ -50,23 +50,43 @@ func action():
 func swing_hammer():
 	is_swinging = true
 	
-	# create_tween() lets us animate properties over time
 	var tween = create_tween()
 	
-	# 1. Wind up (pull back slightly)
-	# We rotate relative to the current rotation offset
-	var wind_up_rot = held_rotation_offset + Vector3(80, 0, 0)
-	tween.tween_property(self, "rotation_degrees", wind_up_rot, 0.15)
+	# 1. THE HEAVY WIND UP (0.8 seconds)
+	# We use EASE_OUT to simulate the initial effort of lifting a heavy object against gravity.
+	# We also pull it back further (-45 degrees) to sell the weight.
+	var wind_up_rot = held_rotation_offset + Vector3(45, 0, 0)
+	tween.tween_property(self, "rotation_degrees", wind_up_rot, 0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
-	# 2. The Strike (swing forward hard)
-	var strike_rot = held_rotation_offset + Vector3(-90, 0, 0)
-	tween.tween_property(self, "rotation_degrees", strike_rot, 0.15).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	# 2. THE STRIKE (0.2 seconds)
+	# Even heavy hammers fall fast. We use TRANS_EXPO + EASE_IN to simulate
+	# acceleration (gravity) pulling it down hard at the end.
+	var strike_rot = held_rotation_offset + Vector3(-80, 0, 0)
+	tween.tween_property(self, "rotation_degrees", strike_rot, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+
+	tween.parallel().tween_callback(apply_impact_shake).set_delay(0.2)
+
+	# 3. IMPACT PAUSE (0.1 seconds)
+	# This adds "weight" by making the hammer feel like it stuck into the ground/target 
+	# for a split second before you can lift it again.
+	tween.tween_interval(0.1)
 	
-	# 3. Recovery (return to held position)
-	tween.tween_property(self, "rotation_degrees", held_rotation_offset, 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	# 4. THE LONG RECOVERY (1.2 seconds)
+	# It takes a long time to pull the hammer back to the idle position.
+	# TRANS_BOUNCE gives it a little heavy wobble as it settles.
+	tween.tween_property(self, "rotation_degrees", held_rotation_offset, 1.2).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 	
-	# When the animation finishes, allow swinging again
+	# Unlock the hammer only after the long recovery is done
 	tween.finished.connect(func(): is_swinging = false)
+
+func apply_impact_shake():
+	# Access the camera (The grandparent of the hammer: Hammer -> Hand -> Camera)
+	var camera = get_parent().get_parent() 
+	if camera is Camera3D:
+		var shake_tween = create_tween()
+		# Quickly jerk the camera down and back up
+		shake_tween.tween_property(camera, "v_offset", -0.1, 0.05)
+		shake_tween.tween_property(camera, "v_offset", 0.0, 0.1)
 
 # LOGIC FOR HITTING
 func _on_hitbox_body_entered(body):

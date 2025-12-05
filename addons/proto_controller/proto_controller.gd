@@ -80,6 +80,9 @@ func _input(event):
 			_attempt_pickup()	
 		
 func attack():
+	if held_object and held_object.has_method("action"):
+		held_object.action()
+		return
 	for body in attack_area.get_overlapping_bodies():
 		if body.has_method("take_damage"):
 			body.take_damage(1)

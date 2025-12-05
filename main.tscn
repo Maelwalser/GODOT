@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=46 format=3 uid="uid://xcu7i15vs647"]
 
 [ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
@@ -75,6 +75,8 @@ point_count = 29
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0rl1p"]
 size = Vector3(0.5177002, 0.6455078, 4.2928467)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ok6jj"]
 
 [node name="main" type="Node3D"]
 
@@ -461,3 +463,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.018615723, 0.011230469, -1.
 shape = SubResource("BoxShape3D_0rl1p")
 
 [node name="Hammer" parent="Hammer" instance=ExtResource("35_0rl1p")]
+
+[node name="Hitbox" type="Area3D" parent="Hammer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hammer/Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.3353124)
+shape = SubResource("BoxShape3D_ok6jj")

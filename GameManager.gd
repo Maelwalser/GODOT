@@ -118,6 +118,18 @@ func go_to_main_menu():
 	_cleanup_ui()
 	
 	get_tree().change_scene_to_file(main_menu_path)
+	
+func force_start_tutorial():
+	print("Force starting tutorial...")
+	current_state = GameState.TUTORIAL
+	
+	# Explicitly load the tutorial scene path
+	get_tree().change_scene_to_file(tutorial_scene_path)
+	
+	# Wait for load, then setup connections
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_setup_gameplay_connections()
 
 # SETUP HELPERS
 func _setup_gameplay_connections():

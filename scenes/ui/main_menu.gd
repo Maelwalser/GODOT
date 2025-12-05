@@ -2,6 +2,7 @@ extends Control
 
 @onready var start_button: Button = $MarginContainer/VBoxContainer/StartButton
 @onready var quit_button: Button = $MarginContainer/VBoxContainer/QuitButton
+@onready var tutorial_button: Button = $MarginContainer/VBoxContainer/TutorialButton
 
 @export var game_scene_path : String = "res://main.tscn"
 @export var character_animator: AnimationPlayer
@@ -14,6 +15,7 @@ func _ready():
 	# Connect buttons
 	start_button.pressed.connect(_on_start_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+	tutorial_button.pressed.connect(_on_tutorial_pressed)
 	
 
 	_play_intro_animation()
@@ -33,3 +35,7 @@ func _on_start_pressed():
 
 func _on_quit_pressed():
 	get_tree().quit()
+	
+func _on_tutorial_pressed():
+	print("Starting tutorial manually...")
+	GameManager.force_start_tutorial()

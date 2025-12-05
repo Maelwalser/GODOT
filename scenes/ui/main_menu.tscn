@@ -40,6 +40,21 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71yxc"]
 
+[sub_resource type="Animation" id="Animation_5dct7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(90.46369, 6.68103, -20.102118)]
+}
+
 [sub_resource type="Animation" id="Animation_pw24t"]
 resource_name = "camera_animation"
 length = 4.0
@@ -55,21 +70,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(90.46369, 6.68103, -20.102118), Vector3(90.46369, 6.68103, -20.32092), Vector3(90.46369, 6.9098983, -20.32092), Vector3(90.46369, 6.9098983, -20.073063)]
-}
-
-[sub_resource type="Animation" id="Animation_5dct7"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Background/SubViewportContainer/SubViewport/Camera3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(90.46369, 6.68103, -20.102118)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qilvv"]
@@ -342,6 +342,18 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_xupgs")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_6gmx2")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_3g7do")
 text = "Start"
+
+[node name="TutorialButton" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojeks")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_f8svg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0jeo2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_k6jjb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_71yxc")
+text = "Tutorial"
 
 [node name="QuitButton" type="Button" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2

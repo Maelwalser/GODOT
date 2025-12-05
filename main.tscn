@@ -77,7 +77,7 @@ point_count = 29
 [node name="Player" parent="." instance=ExtResource("2_q5j75")]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.329, 6.30661, -20.7989)
 
-[node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
+[node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["AI", "Enemy"]]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 43.310184, 4.905992, -1.5710926)
 script = ExtResource("24_0odxb")
 patrol_path = NodePath("../HaruPath")
@@ -416,7 +416,7 @@ transform = Transform3D(-220, 0, -3.3219076e-05, 0, 220, 0, 3.3219076e-05, 0, -2
 [node name="Sketchfab_Scene5" parent="NavigationRegion3D" instance=ExtResource("32_0rl1p")]
 transform = Transform3D(-220, 0, -3.3219076e-05, 0, 220, 0, 3.3219076e-05, 0, -220, 47.468735, 4.174473, -32.755753)
 
-[node name="Moritz" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
+[node name="Moritz" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["AI", "Enemy"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.431693, 5.089832, -6.180725)
 script = ExtResource("26_a6jrf")
 patrol_path = NodePath("../MoritzPath")

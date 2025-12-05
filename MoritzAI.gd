@@ -2,6 +2,10 @@ class_name AIControllerMoritz
 extends CharacterBody3D
 signal player_caught
 
+@export_group("Hearing")
+@export var hearing_range : float = 30.0
+@export var investigate_duration : float = 4.0
+
 @export_group("Movement")
 @export var walk_speed : float = 3.5
 @export var run_speed : float = 6.0
@@ -24,7 +28,7 @@ signal player_caught
 @export var patrol_point_reached_range : float = 1.0
 
 
-enum State {PATROL, SEARCH, CHASE}
+enum State {PATROL, SEARCH, CHASE, INVESTIGATE}
 var current_state : State = State.PATROL
 
 var patrol_points : PackedVector3Array
@@ -38,6 +42,9 @@ var last_known_player_position : Vector3
 
 var last_known_player_velocity : Vector3 = Vector3.ZERO
 var search_path_extended : bool = false
+
+var investigation_target : Vector3
+var investigation_time : float = 0.0
 
 # Nodes
 @onready var anim_player : AnimationPlayer = $Moritz/AnimationPlayer
@@ -76,6 +83,21 @@ func _ready():
 			patrol_points.append(patrol_path.to_global(curve.get_point_position(i)))
 	else:
 		print("Warning: No Patrol Path assigned to Moritz!")
+		
+func hear_noise(noise_position: Vector3):
+	var distance = global_position.distance_to(noise_position)
+	
+	if distance > hearing_range:
+		return
+	
+	if current_state == State.CHASE:
+		return
+	
+	print("Haru heard something at: ", noise_position)
+	investigation_target = noise_position
+	investigation_time = 0.0
+	current_state = State.INVESTIGATE
+	agent.target_position = noise_position
 
 func _process(delta):
 	if player:
@@ -88,10 +110,25 @@ func _process(delta):
 			process_search_state(delta)
 		State.PATROL:
 			process_patrol_state(delta)
+		State.INVESTIGATE:
+			process_investigate_state(delta)
 
 	update_vision_visual()
 
 # STATE LOGIC
+
+func process_investigate_state(delta):
+	if is_player_in_vision_cone():
+		print("Haru spotted player while investigating!")
+		current_state = State.CHASE
+		return
+	
+	investigation_time += delta
+	
+	if agent.is_navigation_finished() or investigation_time >= investigate_duration:
+		print("Haru finished investigating. Returning to patrol.")
+		current_state = State.PATROL
+		find_closest_patrol_point()
 
 func process_chase_state(delta):
 	# If we lose visibility, switch to SEARCH (Grace period)
@@ -321,6 +358,8 @@ func update_vision_visual():
 		vision_visual.material_override.albedo_color = vision_color_chase # Yellow/Red
 	elif current_state == State.SEARCH:
 		vision_visual.material_override.albedo_color = Color(1.0, 0.5, 0.0, 0.2) # Orange
+	elif current_state == State.INVESTIGATE:  # NEW
+		vision_visual.material_override.albedo_color = Color(1.0, 0.0, 1.0, 0.3)
 	else:
 		vision_visual.material_override.albedo_color = vision_color_patrol # Red/Green
 

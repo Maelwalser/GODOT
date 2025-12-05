@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bs72ogkvdd7d6"]
+[gd_scene load_steps=9 format=3 uid="uid://bs72ogkvdd7d6"]
 
 [ext_resource type="Script" uid="uid://dqnk43a5pyl5q" path="res://addons/proto_controller/proto_controller.gd" id="1_ucva2"]
 [ext_resource type="AudioStream" uid="uid://bou8gkvr4bgx6" path="res://audio/sound_effect/player_and_npc/running-on-the-floor-359909.mp3" id="2_wr06p"]
 [ext_resource type="AudioStream" uid="uid://1y28h86qxjr1" path="res://audio/sound_effect/player_and_npc/soft_landing.mp3" id="3_5hfox"]
+[ext_resource type="AudioStream" uid="uid://c6ikf485awuxq" path="res://audio/sound_effect/player_and_npc/breathing-fast-247449 (1).mp3" id="4_6dqce"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iof21"]
 albedo_color = Color(0.91806, 0.575202, 0.222449, 1)
@@ -48,6 +49,9 @@ stream = ExtResource("2_wr06p")
 [node name="JumpLandingPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_5hfox")
 volume_db = 10.0
+
+[node name="BreathingPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_6dqce")
 
 [node name="TempAttack" type="Area3D" parent="."]
 collision_mask = 3

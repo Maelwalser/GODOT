@@ -9,6 +9,11 @@ extends CharacterBody3D
 @export var was_on_floor : bool = false
 ##Was player on the ground previously?
 @export var was_in_air : bool = false
+##for evalating if player how much the player can run
+@export var max_endurance : float = 6
+@export var endurance_drain_rate : float = 2.0  
+@export var endurance_recovery_rate : float = 1.0  
+@export var min_endurance_to_sprint : float = 1.0
 
 ## Can we move around?
 @export var can_move : bool = true
@@ -17,7 +22,7 @@ extends CharacterBody3D
 ## Can we press to jump?
 @export var can_jump : bool = true
 ## Can we hold to run?
-@export var can_sprint : bool = false
+@export var can_sprint : bool = true
 ## Can we press to enter freefly mode (noclip)?
 @export var can_freefly : bool = false
 
@@ -25,11 +30,11 @@ extends CharacterBody3D
 ## Look around rotation speed.
 @export var look_speed : float = 0.002
 ## Normal speed.
-@export var base_speed : float = 7.0
+@export var base_speed : float = 3.0
 ## Speed of jump.
 @export var jump_velocity : float = 5.5
 ## How fast do we run?
-@export var sprint_speed : float = 12.0
+@export var sprint_speed : float = 14.0
 ## How fast do we freefly?
 @export var freefly_speed : float = 25.0
 
@@ -51,12 +56,15 @@ extends CharacterBody3D
 ## Name of the input for attacking
 @export var input_attack : String = "attack"
 
+
 @onready var knuckles_label = $CanvasGroup/Label
 
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
 var freeflying : bool = false
+var current_endurance : float = 10.0
+var is_out_of_breath : bool = false
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -64,8 +72,7 @@ var freeflying : bool = false
 @onready var footstep_player: AudioStreamPlayer3D = $FootstepPlayer
 @onready var jump_landing_player: AudioStreamPlayer3D = $JumpLandingPlayer
 @onready var attack_area = $TempAttack
-
-
+@onready var breathing_player: AudioStreamPlayer3D = $BreathingPlayer
 
 func _input(event):
 	if event.is_action_pressed("attack"):
@@ -80,6 +87,8 @@ func _ready() -> void:
 	check_input_mappings()
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
+	
+	current_endurance = max_endurance
 	
 	# Setup label position and style
 	if knuckles_label:
@@ -127,12 +136,28 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed(input_jump) and is_on_floor():
 			velocity.y = jump_velocity
 			
-	# Modify speed based on sprinting
-	if can_sprint and Input.is_action_pressed(input_sprint):
+	var is_trying_to_sprint = can_sprint and Input.is_action_pressed(input_sprint)
+	var is_moving = Input.get_vector(input_left, input_right, input_forward, input_back).length() > 0		
+	var can_actually_sprint = is_trying_to_sprint and current_endurance > min_endurance_to_sprint and is_moving
+	
+	if can_actually_sprint:
 		move_speed = sprint_speed
+		current_endurance -= endurance_drain_rate * delta
+		current_endurance = max(0, current_endurance)
+		
+		if current_endurance <= 0 and not is_out_of_breath:
+			is_out_of_breath = true
+			if breathing_player:
+				breathing_player.play()
 	else:
 		move_speed = base_speed
-
+		current_endurance += endurance_recovery_rate * delta
+		current_endurance = min(max_endurance, current_endurance)
+		
+		if is_out_of_breath and current_endurance >= max_endurance * 0.5:
+			is_out_of_breath = false
+			if breathing_player and breathing_player.playing:
+				breathing_player.stop()
 	# Apply desired movement to velocity
 	if can_move:
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
@@ -153,8 +178,6 @@ func _physics_process(delta: float) -> void:
 	
 	if was_in_air and is_on_floor():
 		jump_landing_player.play()
-		
-	var is_moving = velocity.length() > 0.1  
 	
 	if is_moving and is_on_floor():
 		if not footstep_player.playing:

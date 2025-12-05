@@ -65,17 +65,39 @@ var freeflying : bool = false
 @onready var jump_landing_player: AudioStreamPlayer3D = $JumpLandingPlayer
 @onready var attack_area = $TempAttack
 
+@onready var interaction_ray = $Head/Camera3D/RayCast3D
+@onready var hand_position = $Head/Camera3D/Handposition
 
+var held_object: RigidBody3D = null
 
 func _input(event):
 	if event.is_action_pressed("attack"):
 		attack()
+	if event.is_action_pressed("interact"): # Map this key in Project Settings
+		if held_object:
+			_drop_held_object()
+		else:
+			_attempt_pickup()	
 		
 func attack():
 	for body in attack_area.get_overlapping_bodies():
 		if body.has_method("take_damage"):
 			body.take_damage(1)
 
+func _attempt_pickup():
+	if interaction_ray.is_colliding():
+		var collider = interaction_ray.get_collider()
+		
+		# Check if the object has the pick_up method
+		if collider.has_method("pick_up"):
+			held_object = collider
+			held_object.pick_up(hand_position)
+
+func _drop_held_object():
+	if held_object:
+		held_object.drop_object()
+		held_object = null
+		
 func _ready() -> void:
 	check_input_mappings()
 	look_rotation.y = rotation.y

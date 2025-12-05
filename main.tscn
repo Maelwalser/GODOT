@@ -1,6 +1,6 @@
-[gd_scene load_steps=42 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=45 format=3 uid="uid://xcu7i15vs647"]
 
-[ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
+[ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
 [ext_resource type="PackedScene" uid="uid://dq0qx272fwqh2" path="res://addons/characters/moritz/Moritz.glb" id="4_lswn8"]
@@ -34,6 +34,8 @@
 [ext_resource type="PackedScene" uid="uid://tbmmyrbts1n7" path="res://nodes/IslandGroupTarget1.tscn" id="30_jq2sk"]
 [ext_resource type="PackedScene" uid="uid://dul742hgf8lf" path="res://nodes/Workplace_with_target.tscn" id="31_0rl1p"]
 [ext_resource type="PackedScene" uid="uid://dm6lhcabeogky" path="res://addons/assets/chair/scene.gltf" id="32_0rl1p"]
+[ext_resource type="PackedScene" uid="uid://cs7x88r2es6n6" path="res://addons/assets/hammer/Hammer.glb" id="35_0rl1p"]
+[ext_resource type="Script" uid="uid://b3kqxxovt7i5b" path="res://pickable_object.gd" id="35_ok6jj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
 radius = 0.12695313
@@ -70,6 +72,9 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 29
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0rl1p"]
+size = Vector3(0.5177002, 0.6455078, 4.2928467)
 
 [node name="main" type="Node3D"]
 
@@ -444,3 +449,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.53912, 5.703068, -5.095917
 curve = SubResource("Curve3D_xuqvo")
 
 [node name="DestructionCounter" parent="." instance=ExtResource("9_kek77")]
+
+[node name="Hammer" type="RigidBody3D" parent="."]
+transform = Transform3D(0.75, 0, 0, 0, -3.278354e-08, 0.75, 0, -0.75, -3.278354e-08, 23.65139, 7.0570784, -11.793846)
+mass = 5.0
+script = ExtResource("35_ok6jj")
+held_rotation_offset = Vector3(50, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hammer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.018615723, 0.011230469, -1.5659881)
+shape = SubResource("BoxShape3D_0rl1p")
+
+[node name="Hammer" parent="Hammer" instance=ExtResource("35_0rl1p")]

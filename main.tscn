@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=43 format=3 uid="uid://xcu7i15vs647"]
 
 [ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
@@ -34,6 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://tbmmyrbts1n7" path="res://nodes/IslandGroupTarget1.tscn" id="30_jq2sk"]
 [ext_resource type="PackedScene" uid="uid://dul742hgf8lf" path="res://nodes/Workplace_with_target.tscn" id="31_0rl1p"]
 [ext_resource type="PackedScene" uid="uid://dm6lhcabeogky" path="res://addons/assets/chair/scene.gltf" id="32_0rl1p"]
+[ext_resource type="AudioStream" uid="uid://c7hee4av8ahd1" path="res://audio/sound_effect/player_and_npc/runningforAI.mp3" id="34_0rl1p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
 radius = 0.12695313
@@ -98,6 +99,9 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.04701233, 0.60696006, 1.8422947)
 shape = SubResource("CapsuleShape3D_0odxb")
 
+[node name="FootStepPlayer" type="AudioStreamPlayer3D" parent="Haru"]
+stream = ExtResource("34_0rl1p")
+
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_0odxb")
 
@@ -132,7 +136,7 @@ transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, 
 transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, -0.0932745)
 
 [node name="shelf9" parent="NavigationRegion3D" instance=ExtResource("4_6j3ss")]
-transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.5639, 3.38618, 2.40493)
+transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.074203, 4.2103667, 2.6061358)
 
 [node name="shelf10" parent="NavigationRegion3D" instance=ExtResource("4_6j3ss")]
 transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, 5.38876)
@@ -434,6 +438,9 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Moritz/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.3711392e-08, -1, 0, 1, -4.3711392e-08, 0, 0.49202383, -1.4333228)
 shape = SubResource("CapsuleShape3D_a6jrf")
+
+[node name="FootStepPlayer" type="AudioStreamPlayer3D" parent="Moritz"]
+stream = ExtResource("34_0rl1p")
 
 [node name="MoritzPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.659895, 5.9785705, -6.1139364)

@@ -47,6 +47,7 @@ var search_path_extended : bool = false
 @onready var vision_area : Area3D = $Area3D
 @onready var vision_collision : CollisionShape3D = $Area3D/CollisionShape3D
 @onready var vision_visual : MeshInstance3D
+@onready var footstep_player: AudioStreamPlayer3D = $FootStepPlayer
 
 
 
@@ -212,6 +213,15 @@ func _physics_process(delta):
 			agent.set_velocity(intended_velocity)
 		else:
 			_on_velocity_computed(intended_velocity)
+		
+	var is_moving = velocity.length() > 0.1		
+	if is_moving and is_on_floor():
+		if not footstep_player.playing:
+			footstep_player.play()
+			
+	else:
+		if footstep_player.playing:
+			footstep_player.stop()	
 
 	# Animation Handling
 	handle_animation()

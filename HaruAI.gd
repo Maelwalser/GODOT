@@ -46,6 +46,7 @@ var search_path_extended : bool = false
 @onready var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var player = get_tree().get_nodes_in_group("Player")[0] if get_tree().get_nodes_in_group("Player").size() > 0 else null
 
+@onready var footstep_player: AudioStreamPlayer3D = $FootStepPlayer
 @onready var vision_area : Area3D = $Area3D
 @onready var vision_collision : CollisionShape3D = $Area3D/CollisionShape3D
 @onready var vision_visual : MeshInstance3D
@@ -216,6 +217,17 @@ func _physics_process(delta):
 			agent.set_velocity(intended_velocity)
 		else:
 			_on_velocity_computed(intended_velocity)
+			
+			
+	var is_moving = velocity.length() > 0.1  
+	
+	if is_moving and is_on_floor():
+		if not footstep_player.playing:
+			footstep_player.play()
+			
+	else:
+		if footstep_player.playing:
+			footstep_player.stop()		
 
 	handle_animation()
 	handle_rotation(delta)

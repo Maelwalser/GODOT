@@ -14,7 +14,7 @@ extends CharacterBody3D
 @export var endurance_drain_rate : float = 2.0  
 @export var endurance_recovery_rate : float = 1.0  
 @export var min_endurance_to_sprint : float = 1.0
-@export var sprint_cooldown_duration : float = 2.5  # NEW: Duration of cooldown in seconds
+@export var sprint_cooldown_duration : float = 2.5  
 
 ## Can we move around?
 @export var can_move : bool = true
@@ -35,7 +35,7 @@ extends CharacterBody3D
 ## Speed of jump.
 @export var jump_velocity : float = 5.5
 ## How fast do we run?
-@export var sprint_speed : float = 14.0
+@export var sprint_speed : float = 10.0
 ## How fast do we freefly?
 @export var freefly_speed : float = 25.0
 
@@ -66,8 +66,8 @@ var move_speed : float = 0.0
 var freeflying : bool = false
 var current_endurance : float = 10.0
 var is_out_of_breath : bool = false
-var sprint_cooldown_timer : float = 0.0  # NEW: Tracks cooldown time remaining
-var is_in_sprint_cooldown : bool = false  # NEW: Whether we're in cooldown
+var sprint_cooldown_timer : float = 0.0  
+var is_in_sprint_cooldown : bool = false  
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -93,9 +93,9 @@ func _ready() -> void:
 	
 	current_endurance = max_endurance
 	
-	# Setup label position and style
+	
 	if knuckles_label:
-		knuckles_label.position = Vector2(10, 10)  # Top left corner
+		knuckles_label.position = Vector2(10, 10) 
 		knuckles_label.add_theme_font_size_override("font_size", 32)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -125,13 +125,13 @@ func _physics_process(delta: float) -> void:
 		move_and_collide(motion)
 		return
 	
-	# NEW: Handle sprint cooldown timer
+	
 	if is_in_sprint_cooldown:
 		sprint_cooldown_timer -= delta
 		if sprint_cooldown_timer <= 0:
 			is_in_sprint_cooldown = false
 			sprint_cooldown_timer = 0
-			print("Sprint cooldown ended!")  # DEBUG
+			
 	
 	# Apply gravity to velocity
 	if has_gravity:
@@ -149,34 +149,30 @@ func _physics_process(delta: float) -> void:
 			
 	var is_trying_to_sprint = can_sprint and Input.is_action_pressed(input_sprint)
 	var is_moving = Input.get_vector(input_left, input_right, input_forward, input_back).length() > 0		
-	# MODIFIED: Check if we're not in cooldown as well
+	
 	var can_actually_sprint = is_trying_to_sprint and current_endurance > 0 and is_moving and not is_in_sprint_cooldown
 	
 	if can_actually_sprint:
 		move_speed = sprint_speed
 		current_endurance -= endurance_drain_rate * delta
 		
-		# NEW: When endurance hits 0, trigger cooldown IMMEDIATELY
+		
 		if current_endurance <= 0:
 			current_endurance = 0
-			if not is_in_sprint_cooldown:  # Only trigger once
+			if not is_in_sprint_cooldown:  
 				is_out_of_breath = true
 				is_in_sprint_cooldown = true
 				sprint_cooldown_timer = sprint_cooldown_duration
-				print("OUT OF BREATH! Sprint locked for ", sprint_cooldown_duration, " seconds!")  # DEBUG
 				if breathing_player:
-					print("Breathing player exists, attempting to play...")  # DEBUG
 					breathing_player.play()
-				else:
-					print("ERROR: breathing_player is NULL!")  # DEBUG
+			
 	else:
 		move_speed = base_speed
-		# MODIFIED: Only recover endurance if NOT in cooldown
 		if not is_in_sprint_cooldown:
 			current_endurance += endurance_recovery_rate * delta
 			current_endurance = min(max_endurance, current_endurance)
 			
-			# Only stop breathing sound when fully recovered
+		
 			if is_out_of_breath and current_endurance >= max_endurance * 0.5:
 				is_out_of_breath = false
 				if breathing_player and breathing_player.playing:

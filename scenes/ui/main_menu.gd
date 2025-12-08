@@ -1,9 +1,12 @@
 extends Control
 
-@onready var start_button : Button = $VBoxContainer/StartButton
-@onready var quit_button : Button = $VBoxContainer/QuitButton
+@onready var start_button: Button = $MarginContainer/VBoxContainer/StartButton
+@onready var quit_button: Button = $MarginContainer/VBoxContainer/QuitButton
+@onready var tutorial_button: Button = $MarginContainer/VBoxContainer/TutorialButton
 
 @export var game_scene_path : String = "res://main.tscn"
+@export var character_animator: AnimationPlayer
+@export var animation_name: String = "Wave"
 
 func _ready():
 
@@ -12,9 +15,19 @@ func _ready():
 	# Connect buttons
 	start_button.pressed.connect(_on_start_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+	tutorial_button.pressed.connect(_on_tutorial_pressed)
 	
-	# Focus the start button for keyboard/controller support
-	start_button.grab_focus()
+
+	_play_intro_animation()
+	
+func _play_intro_animation() -> void:
+	if character_animator:
+		if character_animator.has_animation(animation_name):
+			character_animator.play(animation_name)
+		else:
+			push_warning("Main Menu: Animation '" + animation_name + "' not found on the player.")
+	else:
+		push_warning("Main Menu: Character Animator not assigned in Inspector.")
 
 func _on_start_pressed():
 	print("Starting game...")
@@ -22,3 +35,7 @@ func _on_start_pressed():
 
 func _on_quit_pressed():
 	get_tree().quit()
+	
+func _on_tutorial_pressed():
+	print("Starting tutorial manually...")
+	GameManager.force_start_tutorial()

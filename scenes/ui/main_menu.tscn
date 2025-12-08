@@ -1,8 +1,297 @@
-[gd_scene load_steps=2 format=3 uid="uid://c51ps4ey6k4kb"]
+[gd_scene load_steps=33 format=3 uid="uid://c51ps4ey6k4kb"]
 
-[ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="1_sl1te"]
+[ext_resource type="Script" uid="uid://cysxhf7dkst6l" path="res://scenes/ui/main_menu.gd" id="1_sl1te"]
+[ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_qch7b"]
+[ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_1mexh"]
+[ext_resource type="PackedScene" uid="uid://cdutr0hemgiic" path="res://nodes/one-workplace.tscn" id="8_rbask"]
+[ext_resource type="PackedScene" uid="uid://nnw02k8j2e7l" path="res://nodes/table.tscn" id="9_e6a60"]
+[ext_resource type="PackedScene" uid="uid://0kb6ko8o0oei" path="res://nodes/lamp.tscn" id="10_5et21"]
+[ext_resource type="PackedScene" uid="uid://7eyrthvxhcti" path="res://addons/assets/shelf-kallax/scene.gltf" id="11_ei00g"]
+[ext_resource type="PackedScene" uid="uid://ceq83qhmm45al" path="res://nodes/sofa.tscn" id="13_j4d8q"]
+[ext_resource type="PackedScene" uid="uid://cx481xawi78um" path="res://nodes/wall.tscn" id="14_qpknu"]
+[ext_resource type="PackedScene" uid="uid://cbipslsh4i8bj" path="res://nodes/work-place-bb.tscn" id="15_wabu5"]
+[ext_resource type="PackedScene" uid="uid://b1vv7wsmft8c0" path="res://nodes/chair.tscn" id="16_3e805"]
+[ext_resource type="PackedScene" uid="uid://uq4cooxw5vvy" path="res://nodes/lightbox.tscn" id="17_dwgav"]
+[ext_resource type="PackedScene" uid="uid://b11pimdohjui5" path="res://nodes/largecloset.tscn" id="18_bvtfn"]
+[ext_resource type="PackedScene" uid="uid://dccnufj60os2p" path="res://nodes/smallcloset.tscn" id="19_r6ok0"]
+[ext_resource type="PackedScene" uid="uid://bo5a0prgimq0v" path="res://nodes/monitor-bb.tscn" id="20_oq1mw"]
+[ext_resource type="PackedScene" uid="uid://dh1botqgnp7dd" path="res://nodes/shelfblock.tscn" id="21_cc4y2"]
+[ext_resource type="PackedScene" uid="uid://bs5dhw2dxspa6" path="res://nodes/chestblock.tscn" id="22_iglv2"]
+[ext_resource type="PackedScene" uid="uid://by1cnj58ptphl" path="res://addons/assets/monitor/scene.gltf" id="23_c68a3"]
+[ext_resource type="PackedScene" uid="uid://jhmfe3wuu255" path="res://addons/characters/lisa/Lisa.glb" id="24_01voq"]
 
-[node name="MainMenu" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hr2v7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4suy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xupgs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6gmx2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3g7do"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojeks"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f8svg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jeo2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k6jjb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71yxc"]
+
+[sub_resource type="Animation" id="Animation_5dct7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(90.46369, 6.68103, -20.102118)]
+}
+
+[sub_resource type="Animation" id="Animation_pw24t"]
+resource_name = "camera_animation"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/SubViewportContainer/SubViewport/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(90.46369, 6.68103, -20.102118), Vector3(90.46369, 6.68103, -20.32092), Vector3(90.46369, 6.9098983, -20.32092), Vector3(90.46369, 6.9098983, -20.073063)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qilvv"]
+_data = {
+&"RESET": SubResource("Animation_5dct7"),
+&"camera_animation": SubResource("Animation_pw24t")
+}
+
+[node name="MainMenu" type="CanvasLayer"]
+
+[node name="Background" type="Node3D" parent="."]
+
+[node name="lindenhofpark" parent="Background" instance=ExtResource("2_qch7b")]
+transform = Transform3D(0.54, 0, 0, 0, 0.54, 0, 0, 0, 0.54, 33.583813, 4.212468, -30.354773)
+
+[node name="Node3D11" parent="Background" instance=ExtResource("9_e6a60")]
+transform = Transform3D(0.21, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 25.840414, 4.209878, -14.449073)
+
+[node name="Node3D12" parent="Background" instance=ExtResource("10_5et21")]
+transform = Transform3D(4.76995e-09, 0, -0.4, 0, 0.4, 0, 0.4, 0, 4.76995e-09, 25.090815, 4.209878, -15.184672)
+
+[node name="Sketchfab_Scene2" parent="Background" instance=ExtResource("11_ei00g")]
+transform = Transform3D(5.71295e-15, 1.30697e-07, 2.99, 2.99, -1.30697e-07, 0, 1.30697e-07, 2.99, -1.30697e-07, 62.779514, 6.155138, -25.671272)
+
+[node name="shelf11" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 60.546616, 4.209878, -26.139673)
+
+[node name="shelf12" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 60.546413, 4.209878, -35.70867)
+
+[node name="shelf13" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-1.31134e-08, 0, -0.3, 0, 0.3, 0, 0.3, 0, -1.31134e-08, 57.787613, 4.209878, -35.70867)
+
+[node name="Node3D13" parent="Background" instance=ExtResource("9_e6a60")]
+transform = Transform3D(-1.72688e-08, 0, 0.395062, 0, 0.395062, 0, -0.395062, 0, -1.72688e-08, 17.807413, 4.209878, -29.426872)
+
+[node name="shelf14" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-0.32, 0, -4.00139e-08, 0, 0.555, 0, 4.83187e-08, 0, -0.265, 33.603313, 4.209878, -32.615772)
+
+[node name="shelf15" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-0.32, 0, -4.00139e-08, 0, 0.555, 0, 4.83187e-08, 0, -0.265, 33.603313, 4.209878, -35.04597)
+
+[node name="shelf16" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-0.32, 0, -4.00139e-08, 0, 0.555, 0, 4.83187e-08, 0, -0.265, 33.603313, 4.209878, -26.543673)
+
+[node name="shelf17" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-0.32, 0, -4.00139e-08, 0, 0.555, 0, 4.83187e-08, 0, -0.265, 33.603313, 4.209878, -28.973873)
+
+[node name="Node3D14" parent="Background" instance=ExtResource("13_j4d8q")]
+transform = Transform3D(-1.31134e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.31134e-09, 30.029715, 4.209878, -31.645473)
+
+[node name="Node3D15" parent="Background" instance=ExtResource("9_e6a60")]
+transform = Transform3D(-1.72688e-08, 0, 0.395062, 0, 0.395062, 0, -0.395062, 0, -1.72688e-08, 20.093414, 4.209878, -29.426872)
+
+[node name="wall" parent="Background" instance=ExtResource("14_qpknu")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 24.861513, 4.209878, -33.279373)
+
+[node name="wall2" parent="Background" instance=ExtResource("14_qpknu")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 24.861513, 4.209878, -27.498672)
+
+[node name="wall3" parent="Background" instance=ExtResource("14_qpknu")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 12.9032135, 4.209878, -33.279373)
+
+[node name="wall4" parent="Background" instance=ExtResource("14_qpknu")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 12.9032135, 4.209878, -27.498672)
+
+[node name="Node3D16" parent="Background" instance=ExtResource("9_e6a60")]
+transform = Transform3D(-0.543624, 0, 0.216071, 0, 0.4, 0, -0.313444, 0, -0.374744, 5.158004, 4.209878, -31.160473)
+
+[node name="Node3D17" parent="Background" instance=ExtResource("9_e6a60")]
+transform = Transform3D(0.499583, 0, 0, 0, 0.348192, 0, 0, 0, 0.377945, -7.224946, 4.209878, -35.08927)
+
+[node name="Node3D18" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(0.0508674, 0, -0.396752, 0, 0.4, 0, 0.396752, 0, 0.0508674, 39.431812, 4.209878, -25.567373)
+
+[node name="Node3D19" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(0.0508674, 0, -0.396752, 0, 0.4, 0, 0.396752, 0, 0.0508674, 38.664913, 4.209878, -30.724373)
+
+[node name="Node3D20" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(-0.0499046, 0, 0.396875, 0, 0.4, 0, -0.396875, 0, -0.0499046, 41.893215, 4.209878, -31.118073)
+
+[node name="Node3D21" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(-0.0499046, 0, 0.396875, 0, 0.4, 0, -0.396875, 0, -0.0499046, 42.647614, 4.209878, -25.959173)
+
+[node name="Node3D22" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(0.0508674, 0, -0.396752, 0, 0.4, 0, 0.396752, 0, 0.0508674, 49.167015, 4.209878, -27.005472)
+
+[node name="Node3D23" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(0.0508674, 0, -0.396752, 0, 0.4, 0, 0.396752, 0, 0.0508674, 48.400112, 4.209878, -32.16247)
+
+[node name="Node3D24" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(-0.0499046, 0, 0.396875, 0, 0.4, 0, -0.396875, 0, -0.0499046, 51.628414, 4.209878, -32.556072)
+
+[node name="Node3D25" parent="Background" instance=ExtResource("8_rbask")]
+transform = Transform3D(-0.0499046, 0, 0.396875, 0, 0.4, 0, -0.396875, 0, -0.0499046, 52.382813, 4.209878, -27.397272)
+
+[node name="shelf18" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(-1.31134e-08, 0, 0.325, 0, 0.3, 0, -0.3, 0, -1.42062e-08, 57.670815, 4.209878, -26.139673)
+
+[node name="Node3D26" parent="Background" instance=ExtResource("15_wabu5")]
+transform = Transform3D(-0.4, 0, -3.49691e-08, 0, 0.4, 0, 3.49691e-08, 0, -0.4, 59.454014, 4.209878, -27.817972)
+
+[node name="shelf19" parent="Background" instance=ExtResource("4_1mexh")]
+transform = Transform3D(0.3, 0, 0, 0, 0.21, 0, 0, 0, 0.3, 56.633312, 4.209878, -27.969173)
+
+[node name="Node3D27" parent="Background" instance=ExtResource("15_wabu5")]
+transform = Transform3D(-0.4, 0, -3.49691e-08, 0, 0.4, 0, 3.49691e-08, 0, -0.4, 59.454014, 4.209878, -32.418972)
+
+[node name="chair" parent="Background" instance=ExtResource("16_3e805")]
+transform = Transform3D(-0.0518367, 0, 0.396627, 0, 0.4, 0, -0.396627, 0, -0.0518367, 59.227615, 4.209878, -28.699072)
+
+[node name="chair2" parent="Background" instance=ExtResource("16_3e805")]
+transform = Transform3D(-0.0518367, 0, 0.396627, 0, 0.4, 0, -0.396627, 0, -0.0518367, 59.227615, 4.209878, -33.32297)
+
+[node name="Node3D28" parent="Background" instance=ExtResource("17_dwgav")]
+transform = Transform3D(0.136373, 0, 0.990658, 0, 1, 0, -0.990658, 0, 0.136373, 66.90272, 4.209878, -23.857773)
+
+[node name="Node3D29" parent="Background" instance=ExtResource("17_dwgav")]
+transform = Transform3D(0.474718, 0, 0.880138, 0, 1, 0, -0.880138, 0, 0.474718, 82.59921, 4.209878, -23.821672)
+
+[node name="Node3D30" parent="Background" instance=ExtResource("17_dwgav")]
+transform = Transform3D(-0.121194, 0, 0.992629, 0, 1, 0, -0.992629, 0, -0.121194, 76.116714, 4.209878, -18.130074)
+
+[node name="Node3D31" parent="Background" instance=ExtResource("18_bvtfn")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 1, 52.694412, 4.209878, -12.5576725)
+
+[node name="Node3D32" parent="Background" instance=ExtResource("18_bvtfn")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 1, 52.694412, 4.209878, -16.534773)
+
+[node name="Node3D33" parent="Background" instance=ExtResource("18_bvtfn")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 1, 14.470314, 4.209878, -12.5576725)
+
+[node name="Node3D34" parent="Background" instance=ExtResource("18_bvtfn")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 1, 14.470314, 4.209878, -16.534773)
+
+[node name="Node3D35" parent="Background" instance=ExtResource("19_r6ok0")]
+transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 56.885216, 4.209878, 5.600347)
+
+[node name="Node3D36" parent="Background" instance=ExtResource("20_oq1mw")]
+transform = Transform3D(0.525661, 0, -0.278758, 0, 0.595, 0, 0.278758, 0, 0.525661, 6.6674237, 5.835948, -30.630972)
+
+[node name="Node3D37" parent="Background" instance=ExtResource("20_oq1mw")]
+transform = Transform3D(0.525661, 0, -0.278758, 0, 0.595, 0, 0.278758, 0, 0.525661, 3.838614, 5.835948, -32.222775)
+
+[node name="shelfblock" parent="Background" instance=ExtResource("21_cc4y2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.763314, 4.209878, -26.302973)
+
+[node name="shelfblock2" parent="Background" instance=ExtResource("21_cc4y2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.763314, 4.209878, -28.607573)
+
+[node name="shelfblock5" parent="Background" instance=ExtResource("21_cc4y2")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24.238514, 4.209878, -26.302973)
+
+[node name="shelfblock6" parent="Background" instance=ExtResource("21_cc4y2")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24.238514, 4.209878, -28.607573)
+
+[node name="shelfblock7" parent="Background" instance=ExtResource("21_cc4y2")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24.238514, 4.209878, -30.880573)
+
+[node name="shelfblock8" parent="Background" instance=ExtResource("21_cc4y2")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24.238514, 4.209878, -33.185173)
+
+[node name="Node3D38" parent="Background" instance=ExtResource("22_iglv2")]
+transform = Transform3D(0.7617, 0, 0.395337, 0, 0.653681, 0, -0.127971, 0, 2.35311, -9.004376, 4.209878, -25.732073)
+
+[node name="Node3D39" parent="Background" instance=ExtResource("22_iglv2")]
+transform = Transform3D(0.884167, 0, -0.497892, 0, 1, 0, 0.693275, 0, 0.634985, -8.736486, 4.209878, -29.659872)
+
+[node name="Node3D40" parent="Background" instance=ExtResource("22_iglv2")]
+transform = Transform3D(1.69328, 0, -0.00300643, 0, 0.589338, 0, 0.00771338, 0, 0.659974, -4.152006, 4.209878, -29.436773)
+
+[node name="Node3D41" parent="Background" instance=ExtResource("22_iglv2")]
+transform = Transform3D(0.356588, 0, 0.476968, 0, 0.213487, 0, -0.461771, 0, 0.368324, -6.277526, 4.209878, -25.978073)
+
+[node name="Node3D42" parent="Background" instance=ExtResource("22_iglv2")]
+transform = Transform3D(0.328542, 0, 0, 0, 0.143237, 0, 0, 0, 0.346654, -9.342576, 5.492898, -27.411472)
+
+[node name="Node3D43" parent="Background" instance=ExtResource("22_iglv2")]
+transform = Transform3D(0.475282, 0, 0, 0, 0.267444, 0, 0, 0, 0.469169, -5.194046, 5.366608, -29.410673)
+
+[node name="Sketchfab_Scene" parent="Background" instance=ExtResource("23_c68a3")]
+transform = Transform3D(27.9927, 0, -25.4687, 0, 37.845, 0, 25.4687, 0, 27.9927, -8.802587, 6.172648, -29.668972)
+
+[node name="Lisa" parent="Background" instance=ExtResource("24_01voq")]
+transform = Transform3D(1.4158583, 0, 3.7410352, 0, 4, 0, -3.7410352, 0, 1.4158583, 85.564285, 4.116221, -21.910275)
+
+[node name="Skeleton3D" parent="Background/Lisa/metarig" index="0"]
+bones/6/rotation = Quaternion(0.111111954, 1.9648777e-14, 1.0053917e-13, 0.993808)
+bones/8/position = Vector3(0.0077915643, 0.20079097, -0.020384928)
+bones/8/rotation = Quaternion(-0.19700223, 0.5845784, -0.659331, 0.42981485)
+bones/9/rotation = Quaternion(0.3766119, -0.14708282, 0.12284368, 0.90633315)
+bones/10/rotation = Quaternion(-0.023472982, 0.017759893, 0.017013222, 0.9994219)
+bones/12/position = Vector3(-0.007791531, 0.20079097, -0.020384867)
+bones/12/rotation = Quaternion(-0.16427734, -0.7271295, 0.4913328, 0.4504306)
+bones/13/rotation = Quaternion(0.5301661, 0.15325469, 0.03542987, 0.8331756)
+bones/14/rotation = Quaternion(0.03736036, -0.015598578, -0.009624509, 0.99913377)
+bones/15/rotation = Quaternion(-3.1346882e-08, 0.6969362, 0.7171332, -3.0464044e-08)
+bones/16/rotation = Quaternion(-3.1346882e-08, 0.6969362, 0.7171332, -3.0464044e-08)
+bones/28/rotation = Quaternion(0.008832223, 0.9941963, -0.10718833, -0.0025327983)
+bones/29/rotation = Quaternion(-0.69675714, 0.70924884, -0.07400243, -0.07758441)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Background/SubViewportContainer"]
+handle_input_locally = false
+msaa_2d = 3
+msaa_3d = 3
+use_taa = true
+use_debanding = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Background/SubViewportContainer/SubViewport"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 90.46369, 6.68103, -20.102118)
+current = true
+
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("character_animator")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,24 +299,79 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_sl1te")
+character_animator = NodePath("../Background/Lisa/AnimationPlayer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 315.0
-offset_top = 150.0
-offset_right = 456.0
-offset_bottom = 243.0
-scale = Vector2(3.7953897, 3.7953897)
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 343.0
+offset_bottom = 308.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 80
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 38
 text = "Get Back To Work!"
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartButton" type="Button" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+
+[node name="StartButton" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hr2v7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_t4suy")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xupgs")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_6gmx2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3g7do")
 text = "Start"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="TutorialButton" type="Button" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojeks")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_f8svg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0jeo2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_k6jjb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_71yxc")
+text = "Tutorial"
+
+[node name="QuitButton" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojeks")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_f8svg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_0jeo2")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_k6jjb")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_71yxc")
 text = "Quit"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qilvv")
+}
+autoplay = "camera_animation"
+speed_scale = 0.2
+
+[editable path="Background/Lisa"]

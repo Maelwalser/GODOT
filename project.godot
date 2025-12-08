@@ -24,6 +24,12 @@ DestructionManager="*res://destruction_manager.gd"
 
 project/assembly_name="TestGodot"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
 [filesystem]
 
 import/blender/enabled=false

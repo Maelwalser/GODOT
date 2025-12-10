@@ -1,10 +1,9 @@
-[gd_scene load_steps=44 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=43 format=3 uid="uid://bw6owxdmnyk2b"]
 
 [ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
 [ext_resource type="PackedScene" uid="uid://dq0qx272fwqh2" path="res://addons/characters/moritz/Moritz.glb" id="4_lswn8"]
-[ext_resource type="AudioStream" uid="uid://3344mjcs3ss1" path="res://audio/sound_effect/player_and_npc/punch-41105.mp3" id="5_ok6jj"]
 [ext_resource type="PackedScene" uid="uid://dngkfvf80nu7d" path="res://nodes/island-half.tscn" id="5_w1kg0"]
 [ext_resource type="PackedScene" uid="uid://dertoibc81vrp" path="res://nodes/main-island.tscn" id="6_p38vc"]
 [ext_resource type="PackedScene" uid="uid://ccigr2p604ft7" path="res://nodes/ceo-island.tscn" id="7_nwlo3"]
@@ -81,23 +80,7 @@ transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.329
 [node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["AI", "Enemy"]]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 43.310184, 4.905992, -1.5710926)
 script = ExtResource("24_0odxb")
-hearing_range = null
-investigate_duration = null
-walk_speed = null
-run_speed = null
-rotation_speed = null
-jump_height = null
-vision_range = null
-vision_angle = null
-show_vision_area = null
-vision_color_chase = null
-vision_color_patrol = null
 patrol_path = NodePath("../HaruPath")
-lose_player_delay = null
-chase_update_interval = null
-attack_distance = null
-attack_vertical_range = null
-patrol_point_reached_range = null
 
 [node name="Haru" parent="Haru" instance=ExtResource("24_1u8w0")]
 
@@ -118,9 +101,6 @@ shape = SubResource("CapsuleShape3D_0odxb")
 
 [node name="FootStepPlayer" type="AudioStreamPlayer3D" parent="Haru"]
 stream = ExtResource("34_0rl1p")
-
-[node name="HitPlayerSound" type="AudioStreamPlayer3D" parent="Haru"]
-stream = ExtResource("5_ok6jj")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_0odxb")

@@ -73,7 +73,7 @@ func _ready():
 		agent.path_desired_distance = 1.0
 		agent.target_desired_distance = attack_distance
 		agent.path_max_distance = 1.0
-		agent.radius = 3.0 
+		agent.radius = 1.0 
 		agent.avoidance_enabled = true
 		agent.max_speed = run_speed
 		agent.velocity_computed.connect(_on_velocity_computed)

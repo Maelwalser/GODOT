@@ -2,28 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chgbldwp0c5m5"
-path.s3tc="res://.godot/imported/Haru_d30de4defd5d8e8876f71e9564235bdf.jpg-30598847ea8dc2b2a4f2a5cbb0172d50.s3tc.ctex"
+uid="uid://ce6ljb66oecxl"
+path.s3tc="res://.godot/imported/horse_0.png-64172775087a5545fb59d08cbbfe4734.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "a68cfb89c0c77d824c64d691b543ad65"
+"md5": "550ee037a4cb8c980560107502110307"
 }
 
 [deps]
 
-source_file="res://addons/characters/haru/Haru_d30de4defd5d8e8876f71e9564235bdf.jpg"
-dest_files=["res://.godot/imported/Haru_d30de4defd5d8e8876f71e9564235bdf.jpg-30598847ea8dc2b2a4f2a5cbb0172d50.s3tc.ctex"]
+source_file="res://addons/assets/easter-eggs/horse/horse_0.png"
+dest_files=["res://.godot/imported/horse_0.png-64172775087a5545fb59d08cbbfe4734.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
-compress/uastc_level=0
-compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -31,10 +29,6 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/channel_remap/red=0
-process/channel_remap/green=1
-process/channel_remap/blue=2
-process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

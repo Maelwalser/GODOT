@@ -1,9 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=44 format=3 uid="uid://xcu7i15vs647"]
 
 [ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
 [ext_resource type="PackedScene" uid="uid://dq0qx272fwqh2" path="res://addons/characters/moritz/Moritz.glb" id="4_lswn8"]
+[ext_resource type="AudioStream" uid="uid://3344mjcs3ss1" path="res://audio/sound_effect/player_and_npc/punch-41105.mp3" id="5_ok6jj"]
 [ext_resource type="PackedScene" uid="uid://dngkfvf80nu7d" path="res://nodes/island-half.tscn" id="5_w1kg0"]
 [ext_resource type="PackedScene" uid="uid://dertoibc81vrp" path="res://nodes/main-island.tscn" id="6_p38vc"]
 [ext_resource type="PackedScene" uid="uid://ccigr2p604ft7" path="res://nodes/ceo-island.tscn" id="7_nwlo3"]
@@ -34,6 +35,7 @@
 [ext_resource type="PackedScene" uid="uid://tbmmyrbts1n7" path="res://nodes/IslandGroupTarget1.tscn" id="30_jq2sk"]
 [ext_resource type="PackedScene" uid="uid://dul742hgf8lf" path="res://nodes/Workplace_with_target.tscn" id="31_0rl1p"]
 [ext_resource type="PackedScene" uid="uid://dm6lhcabeogky" path="res://addons/assets/chair/scene.gltf" id="32_0rl1p"]
+[ext_resource type="AudioStream" uid="uid://c7hee4av8ahd1" path="res://audio/sound_effect/player_and_npc/runningforAI.mp3" id="34_0rl1p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
 radius = 0.12695313
@@ -76,10 +78,26 @@ point_count = 29
 [node name="Player" parent="." instance=ExtResource("2_q5j75")]
 transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 91.329, 6.30661, -20.7989)
 
-[node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
+[node name="Haru" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["AI", "Enemy"]]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 43.310184, 4.905992, -1.5710926)
 script = ExtResource("24_0odxb")
+hearing_range = null
+investigate_duration = null
+walk_speed = null
+run_speed = null
+rotation_speed = null
+jump_height = null
+vision_range = null
+vision_angle = null
+show_vision_area = null
+vision_color_chase = null
+vision_color_patrol = null
 patrol_path = NodePath("../HaruPath")
+lose_player_delay = null
+chase_update_interval = null
+attack_distance = null
+attack_vertical_range = null
+patrol_point_reached_range = null
 
 [node name="Haru" parent="Haru" instance=ExtResource("24_1u8w0")]
 
@@ -97,6 +115,12 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Haru/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.04701233, 0.60696006, 1.8422947)
 shape = SubResource("CapsuleShape3D_0odxb")
+
+[node name="FootStepPlayer" type="AudioStreamPlayer3D" parent="Haru"]
+stream = ExtResource("34_0rl1p")
+
+[node name="HitPlayerSound" type="AudioStreamPlayer3D" parent="Haru"]
+stream = ExtResource("5_ok6jj")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_0odxb")
@@ -132,7 +156,7 @@ transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, 
 transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, -0.0932745)
 
 [node name="shelf9" parent="NavigationRegion3D" instance=ExtResource("4_6j3ss")]
-transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.5639, 3.38618, 2.40493)
+transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.074203, 4.2103667, 2.6061358)
 
 [node name="shelf10" parent="NavigationRegion3D" instance=ExtResource("4_6j3ss")]
 transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, -14.0796, 4.20988, 5.38876)
@@ -412,7 +436,7 @@ transform = Transform3D(-220, 0, -3.3219076e-05, 0, 220, 0, 3.3219076e-05, 0, -2
 [node name="Sketchfab_Scene5" parent="NavigationRegion3D" instance=ExtResource("32_0rl1p")]
 transform = Transform3D(-220, 0, -3.3219076e-05, 0, 220, 0, 3.3219076e-05, 0, -220, 47.468735, 4.174473, -32.755753)
 
-[node name="Moritz" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["Enemy"]]
+[node name="Moritz" type="CharacterBody3D" parent="." node_paths=PackedStringArray("patrol_path") groups=["AI", "Enemy"]]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 2.431693, 5.089832, -6.180725)
 script = ExtResource("26_a6jrf")
 patrol_path = NodePath("../MoritzPath")
@@ -434,6 +458,9 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Moritz/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.3711392e-08, -1, 0, 1, -4.3711392e-08, 0, 0.49202383, -1.4333228)
 shape = SubResource("CapsuleShape3D_a6jrf")
+
+[node name="FootStepPlayer" type="AudioStreamPlayer3D" parent="Moritz"]
+stream = ExtResource("34_0rl1p")
 
 [node name="MoritzPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.659895, 5.9785705, -6.1139364)

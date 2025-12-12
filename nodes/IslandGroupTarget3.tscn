@@ -45,4 +45,4 @@ transform = Transform3D(0.998143, 0, 0.0609231, 0, 1, 0, -0.0609231, 0, 0.998143
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -12.7158, 0, -0.0200691)
 
 [node name="TargetWorkPlace" parent="." instance=ExtResource("5_oct6c")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9.846767, -0.10693741, 0)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 9.846767, -0.00042009354, 0)

@@ -9,6 +9,12 @@ extends CharacterBody3D
 @export var was_on_floor : bool = false
 ##Was player on the ground previously?
 @export var was_in_air : bool = false
+##evaluating players endurance
+@export var max_endurance : float = 6
+@export var endurance_drain_rate : float = 2.0  
+@export var endurance_recovery_rate : float = 1.0  
+@export var min_endurance_to_sprint : float = 1.0
+@export var sprint_cooldown_duration : float = 2.5  
 
 ## Can we move around?
 @export var can_move : bool = true
@@ -17,7 +23,7 @@ extends CharacterBody3D
 ## Can we press to jump?
 @export var can_jump : bool = true
 ## Can we hold to run?
-@export var can_sprint : bool = false
+@export var can_sprint : bool = true
 ## Can we press to enter freefly mode (noclip)?
 @export var can_freefly : bool = false
 
@@ -25,11 +31,11 @@ extends CharacterBody3D
 ## Look around rotation speed.
 @export var look_speed : float = 0.002
 ## Normal speed.
-@export var base_speed : float = 7.0
+@export var base_speed : float = 5.0
 ## Speed of jump.
 @export var jump_velocity : float = 5.5
 ## How fast do we run?
-@export var sprint_speed : float = 12.0
+@export var sprint_speed : float = 10.0
 ## How fast do we freefly?
 @export var freefly_speed : float = 25.0
 
@@ -51,12 +57,17 @@ extends CharacterBody3D
 ## Name of the input for attacking
 @export var input_attack : String = "attack"
 
+
 @onready var knuckles_label = $CanvasGroup/Label
 
 var mouse_captured : bool = false
 var look_rotation : Vector2
 var move_speed : float = 0.0
 var freeflying : bool = false
+var current_endurance : float = 10.0
+var is_out_of_breath : bool = false
+var sprint_cooldown_timer : float = 0.0  
+var is_in_sprint_cooldown : bool = false  
 
 ## IMPORTANT REFERENCES
 @onready var head: Node3D = $Head
@@ -64,8 +75,7 @@ var freeflying : bool = false
 @onready var footstep_player: AudioStreamPlayer3D = $FootstepPlayer
 @onready var jump_landing_player: AudioStreamPlayer3D = $JumpLandingPlayer
 @onready var attack_area = $TempAttack
-
-
+@onready var breathing_player: AudioStreamPlayer3D = $BreathingPlayer
 
 func _input(event):
 	if event.is_action_pressed("attack"):
@@ -81,9 +91,11 @@ func _ready() -> void:
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
 	
-	# Setup label position and style
+	current_endurance = max_endurance
+	
+	
 	if knuckles_label:
-		knuckles_label.position = Vector2(10, 10)  # Top left corner
+		knuckles_label.position = Vector2(10, 10) 
 		knuckles_label.add_theme_font_size_override("font_size", 32)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -113,6 +125,14 @@ func _physics_process(delta: float) -> void:
 		move_and_collide(motion)
 		return
 	
+	
+	if is_in_sprint_cooldown:
+		sprint_cooldown_timer -= delta
+		if sprint_cooldown_timer <= 0:
+			is_in_sprint_cooldown = false
+			sprint_cooldown_timer = 0
+			
+	
 	# Apply gravity to velocity
 	if has_gravity:
 		if not is_on_floor():
@@ -127,12 +147,37 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed(input_jump) and is_on_floor():
 			velocity.y = jump_velocity
 			
-	# Modify speed based on sprinting
-	if can_sprint and Input.is_action_pressed(input_sprint):
+	var is_trying_to_sprint = can_sprint and Input.is_action_pressed(input_sprint)
+	var is_moving = Input.get_vector(input_left, input_right, input_forward, input_back).length() > 0		
+	
+	var can_actually_sprint = is_trying_to_sprint and current_endurance > 0 and is_moving and not is_in_sprint_cooldown
+	
+	if can_actually_sprint:
 		move_speed = sprint_speed
+		current_endurance -= endurance_drain_rate * delta
+		
+		
+		if current_endurance <= 0:
+			current_endurance = 0
+			if not is_in_sprint_cooldown:  
+				is_out_of_breath = true
+				is_in_sprint_cooldown = true
+				sprint_cooldown_timer = sprint_cooldown_duration
+				if breathing_player:
+					breathing_player.play()
+			
 	else:
 		move_speed = base_speed
-
+		if not is_in_sprint_cooldown:
+			current_endurance += endurance_recovery_rate * delta
+			current_endurance = min(max_endurance, current_endurance)
+			
+		
+			if is_out_of_breath and current_endurance >= max_endurance * 0.5:
+				is_out_of_breath = false
+				if breathing_player and breathing_player.playing:
+					breathing_player.stop()
+	
 	# Apply desired movement to velocity
 	if can_move:
 		var input_dir := Input.get_vector(input_left, input_right, input_forward, input_back)
@@ -153,8 +198,6 @@ func _physics_process(delta: float) -> void:
 	
 	if was_in_air and is_on_floor():
 		jump_landing_player.play()
-		
-	var is_moving = velocity.length() > 0.1  
 	
 	if is_moving and is_on_floor():
 		if not footstep_player.playing:
@@ -200,7 +243,11 @@ func release_mouse():
 func _process(delta):
 	# Update label text every frame with global counter
 	if knuckles_label:
-		knuckles_label.text = "Knuckles: " + str(GameManager.knuckles) + "/9"
+		var base_text = "Knuckles: " + str(GameManager.knuckles) + "/9"
+		# NEW: Show cooldown status in UI
+		if is_in_sprint_cooldown:
+			base_text += "\n[EXHAUSTED: " + str(ceil(sprint_cooldown_timer)) + "s]"
+		knuckles_label.text = base_text
 
 ## Checks if some Input Actions haven't been created.
 ## Disables functionality accordingly.

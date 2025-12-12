@@ -36,6 +36,12 @@ func take_damage(_amount: int = 1):
 	destroy()
 
 func destroy():
+	
+	var ais = get_tree().get_nodes_in_group("AI")  
+	for ai in ais:
+		if ai.has_method("hear_noise"):
+			ai.hear_noise(global_position)
+	
 	if is_destroyed:
 		return
 	

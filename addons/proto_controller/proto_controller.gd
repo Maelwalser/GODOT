@@ -35,7 +35,7 @@ extends CharacterBody3D
 ## Speed of jump.
 @export var jump_velocity : float = 5.5
 ## How fast do we run?
-@export var sprint_speed : float = 10.0
+@export var sprint_speed : float = 12.0
 ## How fast do we freefly?
 @export var freefly_speed : float = 25.0
 

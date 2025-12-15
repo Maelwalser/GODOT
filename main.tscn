@@ -1,6 +1,6 @@
-[gd_scene load_steps=44 format=3 uid="uid://xcu7i15vs647"]
+[gd_scene load_steps=45 format=3 uid="uid://xcu7i15vs647"]
 
-[ext_resource type="PackedScene" uid="uid://u7p2hh014ly1" path="res://office-with-mesh.tscn" id="2_n7cui"]
+[ext_resource type="PackedScene" path="res://office-with-mesh.tscn" id="2_n7cui"]
 [ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://addons/proto_controller/proto_controller.tscn" id="2_q5j75"]
 [ext_resource type="PackedScene" uid="uid://ldk4gm7cxky" path="res://nodes/shelf.tscn" id="4_6j3ss"]
 [ext_resource type="PackedScene" uid="uid://dq0qx272fwqh2" path="res://addons/characters/moritz/Moritz.glb" id="4_lswn8"]
@@ -36,6 +36,7 @@
 [ext_resource type="PackedScene" uid="uid://dul742hgf8lf" path="res://nodes/Workplace_with_target.tscn" id="31_0rl1p"]
 [ext_resource type="PackedScene" uid="uid://dm6lhcabeogky" path="res://addons/assets/chair/scene.gltf" id="32_0rl1p"]
 [ext_resource type="AudioStream" uid="uid://c7hee4av8ahd1" path="res://audio/sound_effect/player_and_npc/runningforAI.mp3" id="34_0rl1p"]
+[ext_resource type="AudioStream" uid="uid://dbtk6jl4exjfm" path="res://audio/sound_effect/player_and_npc/Laughter (mp3cut.net).wav" id="36_facbu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
 radius = 0.12695313
@@ -445,6 +446,9 @@ shape = SubResource("CapsuleShape3D_a6jrf")
 
 [node name="FootStepPlayer" type="AudioStreamPlayer3D" parent="Moritz"]
 stream = ExtResource("34_0rl1p")
+
+[node name="LaughSound" type="AudioStreamPlayer3D" parent="Moritz"]
+stream = ExtResource("36_facbu")
 
 [node name="MoritzPath" type="Path3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.659895, 5.9785705, -6.1139364)

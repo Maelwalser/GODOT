@@ -24,6 +24,9 @@ signal player_caught
 @export var attack_vertical_range : float = 3.0
 @export var patrol_point_reached_range : float = 1.0
 
+@export var min_laugh_interval : float = 3.0  
+@export var laugh_chance : float = 0.5
+
 
 enum State {PATROL, SEARCH, CHASE, INVESTIGATE}
 var current_state : State = State.PATROL
@@ -31,6 +34,7 @@ var current_state : State = State.PATROL
 var patrol_points : PackedVector3Array
 var current_patrol_index : int = 0
 
+var laugh_cooldown : float = 0.0
 
 var time_since_lost_sight : float = 0.0
 var time_since_path_update : float = 0.0
@@ -50,6 +54,7 @@ var investigation_time : float = 0.0
 @onready var player = get_tree().get_nodes_in_group("Player")[0] if get_tree().get_nodes_in_group("Player").size() > 0 else null
 @onready var vision_area : Area3D = $Area3D
 @onready var footstep_player: AudioStreamPlayer3D = $FootStepPlayer
+@onready var laugh_sound: AudioStreamPlayer3D = $LaughSound
 
 
 func _ready():
@@ -90,11 +95,20 @@ func hear_noise(noise_position: Vector3):
 	investigation_time = 0.0
 	current_state = State.INVESTIGATE
 	agent.target_position = noise_position
+	
+func play_laugh_occasionally():
+	if laugh_cooldown <= 0 and randf() < laugh_chance:
+		if laugh_sound and not laugh_sound.playing:
+			laugh_sound.play()
+			laugh_cooldown = min_laugh_interval
 
 func _process(delta):
 	if player:
 		player_distance = global_position.distance_to(player.global_position)
 	
+	if laugh_cooldown > 0:
+		laugh_cooldown -= delta
+		
 	match current_state:
 		State.CHASE:
 			process_chase_state(delta)
@@ -104,6 +118,8 @@ func _process(delta):
 			process_patrol_state(delta)
 		State.INVESTIGATE:
 			process_investigate_state(delta)
+			
+	
 
 # STATE LOGIC
 
@@ -198,6 +214,7 @@ func process_patrol_state(delta):
 	# Vision Check
 	if is_player_in_vision_cone():
 		print("Spotted player! Starting Chase.")
+		play_laugh_occasionally()
 		current_state = State.CHASE
 		return
 		
